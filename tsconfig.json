@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": true,
+    "outDir": "./server_build",
+    "sourceMap": true,
+    "typeRoots": ["./node_modules/@types", "./config"]
+  },
+  "include": ["./server/**/*", "./config/**/*"],
+  "exclude": ["node_modules"]
+}
