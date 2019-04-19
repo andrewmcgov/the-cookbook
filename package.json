@@ -5,14 +5,28 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc server/server.ts",
-    "server:dev": "concurrently \"tsc -w\" \"nodemon server_build/server.js\""
+    "server:dev": "concurrently \"tsc -w\" \"nodemon server_build/server.js --ignore client/ --ignore dist/ --ignore .cache/\"",
+    "client:dev": "parcel client/app.html --open",
+    "dev": "concurrently \"yarn server:dev\" \"yarn client:dev\" --names \"server,client\" -c \"yellow,cyan\""
   },
   "author": "Andrew McGoveran",
   "license": "MIT",
   "dependencies": {
+    "@types/graphql": "^14.2.0",
+    "@types/koa-send": "^4.1.2",
+    "@types/koa-static": "^4.0.1",
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
     "concurrently": "^4.1.0",
+    "graphql": "^14.2.1",
     "koa": "^2.7.0",
-    "koa-router": "^7.4.0"
+    "koa-graphql": "^0.8.0",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
+    "koa-static": "^5.0.0",
+    "parcel-bundler": "^1.12.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@types/koa": "^2.0.48",
