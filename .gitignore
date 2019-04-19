@@ -31,3 +31,7 @@ node_modules/
 
 # Server build output 
 server_build/
+
+# Ignore the dist folder, but not the public folder inside dist
+dist/*
+!dist/public
