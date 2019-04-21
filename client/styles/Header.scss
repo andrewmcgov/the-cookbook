@@ -1,0 +1,14 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid $primary-accent;
+  padding: 1.5rem;
+}
+
+.mobile-nav__trigger {
+  @include break-point(desktop) {
+    display: none;
+  }
+}
