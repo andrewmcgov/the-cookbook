@@ -5,6 +5,14 @@ import * as serve from 'koa-static';
 import * as path from 'path';
 import * as graphQLHTTP from 'koa-graphql';
 import * as proxy from 'koa-proxy';
+import * as mongoose from 'mongoose';
+import * as dotenv from 'dotenv';
+
+// Add environment variables
+dotenv.config();
+
+// Add our models
+import './models/User';
 
 import { isProd } from './config/serverConfig';
 import schema from './schema';
@@ -14,7 +22,17 @@ const app = new Koa();
 const router = new Router();
 
 // Serve static files from the /dist folder
-app.use(serve(path.join(__dirname, '../dist')));
+app.use(serve(path.join(__dirname, '../../dist')));
+
+// Connect to our database
+mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+  useNewUrlParser: true
+});
+
+const db = mongoose.connection;
+
+db.on('error', () => console.log('error connecting to db: '));
+db.once('open', () => console.log('Connected to database!'));
 
 // Pass all /graphql requests to through to the GraphQL server
 router.all(
