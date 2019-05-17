@@ -1,0 +1,25 @@
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+label {
+  display: block;
+  width: auto;
+}
+
+input {
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.form-card {
+  display: inline-block;
+  padding: 1rem;
+  margin: 1rem;
+  border: 1px solid $accent-color;
+
+  h3 {
+    margin-top: 0;
+  }
+}
