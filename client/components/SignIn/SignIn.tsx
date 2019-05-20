@@ -45,7 +45,7 @@ function SignIn() {
             <fieldset disabled={loading || disabled}>
               <label htmlFor="signin:email">Email</label>
               <input
-                type="text"
+                type="email"
                 name="email"
                 placeholder="email"
                 id="signin:email"

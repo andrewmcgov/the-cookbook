@@ -56,8 +56,9 @@
   list-style-type: none;
 }
 
-.mobile-nav__item {
+.mobile-nav__item,
+.mobile-nav__item a {
   color: white;
-  font-size: 1.75em;
+  font-size: 1.25em;
   padding-bottom: 1em;
 }
