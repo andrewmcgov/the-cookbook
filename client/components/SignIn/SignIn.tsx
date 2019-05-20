@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
+import { CURRENT_USER_QUERY } from '../Account/Account';
+
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($email: String, $password: String) {
     signIn(email: $email, password: $password) {
@@ -28,10 +30,13 @@ function SignIn() {
   }
 
   return (
-    <Mutation mutation={SIGN_IN_MUTATION}>
-      {(signIn, { data, loading, error }) => (
+    <Mutation
+      mutation={SIGN_IN_MUTATION}
+      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+    >
+      {(signIn, { loading }) => (
         <div className="form-card">
-          <h3>Signin</h3>
+          <h3>Sign in!</h3>
           <form
             method="post"
             onSubmit={e => handleFormSubmit(e, signIn)}

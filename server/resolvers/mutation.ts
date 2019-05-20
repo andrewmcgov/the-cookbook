@@ -1,9 +1,10 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 import { UserType } from '../graphql-types';
-import { IUser } from '../models/User';
+import { IUser } from '../types';
 
 const User = mongoose.model('User');
 
@@ -28,7 +29,8 @@ const mutation = new GraphQLObjectType({
       },
       async resolve(
         _,
-        { email, firstName, lastName, password, repeatPassword }
+        { email, firstName, lastName, password, repeatPassword },
+        ctx
       ) {
         // Throw an error if the passwords do not match
         if (password !== repeatPassword) {
@@ -40,12 +42,21 @@ const mutation = new GraphQLObjectType({
         const hash = await bcrypt.hash(password, 10);
 
         // Return the new user
-        return await new User({
+        const user = <IUser>await new User({
           email,
           firstName,
           lastName,
           password: hash
         }).save();
+
+        const token = jwt.sign({ _id: user._id }, process.env.APP_SECRET);
+
+        ctx.cookies.set('token', token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60 * 24 * 365
+        });
+
+        return user;
       }
     },
     signIn: {
@@ -54,23 +65,37 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString }
       },
-      async resolve(_, { email, password }) {
+      async resolve(_, { email, password }, ctx) {
         // Find the user from the DB, return if there is none
-        let user = await User.find({ email }).exec();
-        if (user.length === 0) throw new Error(`Unable to find user!`);
+        const [user] = <IUser[]>await User.find({ email }).exec();
+        if (!user) {
+          throw new Error(`Unable to find user!`);
+        }
 
-        // Check that the password match
-        // @ts-ignore
-        const valid = await bcrypt.compare(password, user[0].password);
-
+        // Check if the password is correct
+        const valid = await bcrypt.compare(password, user.password);
         if (!valid) {
           throw new Error(`Incorrect username or password!`);
         }
 
-        // Sign the user in using JWT,
+        // Make the JWT token
+        const token = jwt.sign({ _id: user._id }, process.env.APP_SECRET);
 
-        // Reuturn the new user
-        return user[0];
+        // Set cookie to sign in the user
+        ctx.cookies.set('token', token, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60 * 24 * 365
+        });
+
+        // Reuturn the signed in user
+        return user;
+      }
+    },
+    signOut: {
+      type: GraphQLString,
+      async resolve(_, __, ctx) {
+        ctx.cookies.set('token');
+        return 'You have logged out!';
       }
     }
   }

@@ -1,14 +1,12 @@
 import React from 'react';
 
 import Header from '../Header';
-import SignIn from '../SignIn';
+import Account from '../Account';
 
 const Layout = () => (
   <>
     <Header />
-    <main>
-      <SignIn />
-    </main>
+    <Account />
   </>
 );
 

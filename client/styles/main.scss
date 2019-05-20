@@ -8,3 +8,24 @@
 @import 'Nav';
 @import 'forms';
 @import 'buttons';
+@import 'Page';
+
+// Page styles
+// ******************************************
+.page-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.page-header {
+  margin: 1em 0;
+}
+
+.page-header__title {
+  font-size: 2em;
+}
+
+// Account Page
+// ******************************************
