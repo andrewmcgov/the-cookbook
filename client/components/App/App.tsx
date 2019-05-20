@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo';
 import Layout from '../Layout';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: '/graphql',
   fetchOptions: {
     credentials: 'include'
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 type Props = {
   isOpen: boolean;
@@ -26,9 +27,12 @@ const MobileNav = (props: Props) => {
         </button>
       </div>
       <ul className="mobile-nav">
-        <li className="mobile-nav__item">Home</li>
-        <li className="mobile-nav__item">New Recipe</li>
-        <li className="mobile-nav__item">My Recipes</li>
+        <li onClick={() => closeFn(false)} className="mobile-nav__item">
+          <Link to="/">Home</Link>
+        </li>
+        <li onClick={() => closeFn(false)} className="mobile-nav__item">
+          <Link to="/account">Account</Link>
+        </li>
       </ul>
     </div>
   );

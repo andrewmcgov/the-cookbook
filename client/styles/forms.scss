@@ -6,6 +6,7 @@ fieldset {
 label {
   display: block;
   width: auto;
+  margin-bottom: 0.5rem;
 }
 
 input {
@@ -20,5 +21,13 @@ input {
 
   h3 {
     margin-top: 0;
+  }
+
+  @include break-point(mobile) {
+    width: 100%;
+
+    input {
+      width: 100%;
+    }
   }
 }
