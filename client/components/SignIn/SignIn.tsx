@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, MutationFn } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../Account/Account';
 
@@ -19,7 +19,7 @@ function SignIn() {
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(false);
 
-  function handleFormSubmit(e, signIn) {
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, signIn) {
     e.preventDefault();
     signIn({
       variables: {
@@ -34,7 +34,7 @@ function SignIn() {
       mutation={SIGN_IN_MUTATION}
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
-      {(signIn, { loading }) => (
+      {(signIn: MutationFn, { loading }) => (
         <div className="form-card">
           <h3>Sign in!</h3>
           <form

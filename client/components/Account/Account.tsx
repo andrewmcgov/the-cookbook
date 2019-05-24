@@ -28,9 +28,10 @@ interface Data {
 function Account() {
   const [signUp, setSignUp] = useState(false);
 
-  function handleFormChange(e) {
+  function handleFormChange(
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) {
     e.preventDefault();
-
     setSignUp(signUp => !signUp);
   }
 
