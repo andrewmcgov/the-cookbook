@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 type Props = {
   isOpen: boolean;
-  closeFn: any;
+  closeFn(value: boolean): void;
 };
 
 const MobileNav = (props: Props) => {

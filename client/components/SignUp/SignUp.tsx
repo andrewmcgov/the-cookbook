@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, MutationFn } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../Account/Account';
 
@@ -32,9 +32,11 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [disabled, setDisabled] = useState(false);
 
-  function handleFormSubmit(e, signUp) {
+  function handleFormSubmit(
+    e: React.FormEvent<HTMLFormElement>,
+    signUp: MutationFn
+  ) {
     e.preventDefault();
     signUp({
       variables: {
@@ -52,7 +54,7 @@ function SignIn() {
       mutation={SIGN_UP_MUTATION}
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
-      {(signUp, { loading }) => (
+      {(signUp: MutationFn, { loading }) => (
         <div className="form-card">
           <h3>Sign up!</h3>
           <form
@@ -60,7 +62,7 @@ function SignIn() {
             onSubmit={e => handleFormSubmit(e, signUp)}
             className="signin-form"
           >
-            <fieldset disabled={loading || disabled}>
+            <fieldset disabled={loading}>
               <label htmlFor="signin:firstName">First name</label>
               <input
                 type="text"
