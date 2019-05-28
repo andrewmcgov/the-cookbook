@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import Header from '../Header';
 import Account from '../Account';
+import CreateRecipe from '../CreateRecipe';
 
 function Index() {
   return (
@@ -17,6 +18,7 @@ const Layout = () => (
     <Header />
     <Route path="/" exact component={Index} />
     <Route path="/account" component={Account} />
+    <Route path="/recipes/new" component={CreateRecipe} />
   </Router>
 );
 

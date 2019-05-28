@@ -1,14 +1,23 @@
-import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
-import { UserType } from '../graphql-types';
-import { IUser } from '../types';
+import {
+  UserType,
+  RecipeType,
+  RecipeInput,
+  IngredientType,
+  IngredientInput
+} from '../graphql-types';
+import { IUser, IRecipe } from '../types';
+import { resolve } from 'url';
 
 const User = mongoose.model('User');
+const Recipe = mongoose.model('Recipe');
 
 const mutation = new GraphQLObjectType({
+  // User Accounts ***************************************
   name: 'RootMutationType',
   fields: {
     testMutation: {
@@ -94,8 +103,36 @@ const mutation = new GraphQLObjectType({
     signOut: {
       type: GraphQLString,
       async resolve(_, __, ctx) {
+        console.log('signout');
         ctx.cookies.set('token');
         return 'You have logged out!';
+      }
+    },
+    // Recipes ********************************************
+    createRecipe: {
+      type: RecipeType,
+      args: {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        ingredients: { type: new GraphQLList(IngredientInput) }
+      },
+      async resolve(_, { title, description, ingredients }, ctx) {
+        const token = await ctx.cookies.get('token');
+
+        if (!token) {
+          throw new Error('You must be logged in to create a recipe!');
+        }
+
+        const userId = jwt.verify(token, process.env.APP_SECRET);
+        const recipe = await new Recipe({
+          title,
+          description,
+          ingredients,
+          author: userId,
+          createdAt: Date.now()
+        }).save();
+
+        return recipe;
       }
     }
   }

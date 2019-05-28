@@ -855,6 +855,12 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-json-pretty@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@types/react-json-pretty/-/react-json-pretty-1.3.4.tgz#d071621e5def52eefae85288baed73110db104e5"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.3.3.tgz#7837e3e9fefbc84a8f6c8a51dca004f4e83e94e3"
@@ -883,6 +889,10 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/slug@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@types/slug/-/slug-0.9.1.tgz#16dbf8b77d73e0a09ce51a96400878f33806ab32"
 
 "@types/zen-observable@^0.8.0":
   version "0.8.0"
@@ -4825,6 +4835,12 @@ react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
 
+react-json-pretty@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-json-pretty/-/react-json-pretty-2.1.0.tgz#ba2fd96b26706c7455f72d8683e7d7a00f5c4e9f"
+  dependencies:
+    prop-types "^15.6.2"
+
 react-router-dom@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.0.0.tgz#542a9b86af269a37f0b87218c4c25ea8dcf0c073"
@@ -5288,6 +5304,12 @@ simple-swizzle@^0.2.2:
 sliced@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/sliced/-/sliced-1.0.1.tgz#0b3a662b5d04c3177b1926bea82b03f837a2ef41"
+
+slug@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/slug/-/slug-1.1.0.tgz#73eef5710416f515077bdf70c683bde4915913c9"
+  dependencies:
+    unicode ">= 0.3.1"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
@@ -5829,6 +5851,10 @@ unicode-trie@^0.3.1:
   dependencies:
     pako "^0.2.5"
     tiny-inflate "^1.0.0"
+
+"unicode@>= 0.3.1":
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/unicode/-/unicode-11.0.1.tgz#735bd422ec75cf28d396eb224d535d168d5f1db6"
 
 union-value@^1.0.0:
   version "1.0.0"

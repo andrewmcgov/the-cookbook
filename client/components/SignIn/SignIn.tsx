@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { Mutation, MutationFn } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../Account/Account';
+import Error from '../Error';
 
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($email: String, $password: String) {
@@ -34,8 +35,9 @@ function SignIn() {
       mutation={SIGN_IN_MUTATION}
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
-      {(signIn: MutationFn, { loading }) => (
+      {(signIn: MutationFn, { loading, error }) => (
         <div className="form-card">
+          {error && <Error error={error} />}
           <h3>Sign in!</h3>
           <form
             method="post"
@@ -43,24 +45,28 @@ function SignIn() {
             className="signin-form"
           >
             <fieldset disabled={loading || disabled}>
-              <label htmlFor="signin:email">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="email"
-                id="signin:email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-              <label htmlFor="signin:password">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                id="signin:password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
+              <label htmlFor="signin:email">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  id="signin:email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </label>
+              <label htmlFor="signin:password">
+                Password
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  id="signin:password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </label>
               <button type="submit">Sign in!</button>
             </fieldset>
           </form>

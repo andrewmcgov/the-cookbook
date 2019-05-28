@@ -13,6 +13,7 @@ dotenv.config();
 
 // Add our models
 import './models/User';
+import './models/Recipe';
 
 import { isProd } from './config/serverConfig';
 import schema from './schema';
