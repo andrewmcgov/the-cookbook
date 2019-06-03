@@ -2,6 +2,8 @@ import React from 'react';
 import JSONPretty from 'react-json-pretty';
 import { MutationFn } from 'react-apollo';
 
+import ImageDropzone from './components/ImageDropzone';
+
 interface Ingredient {
   amount: string;
   name: string;
@@ -11,6 +13,7 @@ interface State {
   title: string;
   description: string;
   ingredients: Ingredient[];
+  instructions: string[];
 }
 
 interface Props {
@@ -51,16 +54,40 @@ interface REMOVE_INGREDIENT {
   };
 }
 
+interface ADD_INSTRUCTION {
+  type: 'ADD_INSTRUCTION';
+  payload?: null;
+}
+
+interface REMOVE_INSTRUCTION {
+  type: 'REMOVE_INSTRUCTION';
+  payload: {
+    instructionIndex: number;
+  };
+}
+
+interface UPDATE_INSTRUCTION_VALUE {
+  type: 'UPDATE_INSTRUCTION_VALUE';
+  payload: {
+    instructionIndex: number;
+    updatedInstruction: string;
+  };
+}
+
 type Actions =
   | ADD_INGREDIENT
   | UPDATE_INGREDIENT_VALUE
   | REMOVE_INGREDIENT
+  | ADD_INSTRUCTION
+  | REMOVE_INSTRUCTION
+  | UPDATE_INSTRUCTION_VALUE
   | UPDATE_FORM_VALUE;
 
 const initialState: State = {
   title: '',
   description: '',
-  ingredients: [{ amount: '', name: '' }]
+  ingredients: [{ amount: '', name: '' }],
+  instructions: ['']
 };
 
 function formReducer(state: State, action: Actions): State {
@@ -88,6 +115,22 @@ function formReducer(state: State, action: Actions): State {
         ...state,
         ingredients: newIngredients
       };
+    case 'ADD_INSTRUCTION':
+      const stateWithNewInstruction = { ...state };
+      stateWithNewInstruction.instructions.push('');
+      return stateWithNewInstruction;
+    case 'REMOVE_INSTRUCTION':
+      const newInstructions = [...state.instructions];
+      newInstructions.splice(action.payload.instructionIndex, 1);
+      return {
+        ...state,
+        instructions: newInstructions
+      };
+    case 'UPDATE_INSTRUCTION_VALUE':
+      const ingredientStateUpdate = { ...state };
+      ingredientStateUpdate.instructions[action.payload.instructionIndex] =
+        action.payload.updatedInstruction;
+      return ingredientStateUpdate;
     default:
       return {
         ...state
@@ -96,10 +139,10 @@ function formReducer(state: State, action: Actions): State {
 }
 
 function RecipeForm(props: Props) {
-  const [{ title, description, ingredients }, dispatch] = React.useReducer(
-    formReducer,
-    initialState
-  );
+  const [
+    { title, description, ingredients, instructions },
+    dispatch
+  ] = React.useReducer(formReducer, initialState);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -146,13 +189,46 @@ function RecipeForm(props: Props) {
     });
   }
 
+  function addInstruction(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    dispatch({
+      type: 'ADD_INSTRUCTION'
+    });
+  }
+
+  function removeInstruction(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const instructionIndex = parseInt(
+      e.currentTarget.getAttribute('data-index')
+    );
+    dispatch({
+      type: 'REMOVE_INSTRUCTION',
+      payload: { instructionIndex }
+    });
+  }
+
+  function handleInstructionChange(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const instructionIndex = parseInt(
+      e.currentTarget.getAttribute('data-index')
+    );
+    dispatch({
+      type: 'UPDATE_INSTRUCTION_VALUE',
+      payload: {
+        instructionIndex,
+        updatedInstruction: e.target.value
+      }
+    });
+  }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     props.onSubmit({
       variables: {
         title,
         description,
-        ingredients
+        ingredients,
+        instructions
       }
     });
   }
@@ -182,6 +258,8 @@ function RecipeForm(props: Props) {
             rows={4}
           />
         </label>
+        <h3>Image</h3>
+        <ImageDropzone />
         <h3>Ingredients</h3>
         {ingredients.length > 0 &&
           ingredients.map((ingredient, index) => (
@@ -214,16 +292,39 @@ function RecipeForm(props: Props) {
               </label>
               <div className="ingredient-row__remove-button">
                 <button onClick={removeIngredient} data-index={index}>
-                  Remove
+                  Remove Ingredient
                 </button>
               </div>
             </div>
           ))}
         <button onClick={addIngredient}>Add Ingredient</button>
+        <h3>Instructions</h3>
+        {instructions.length > 0 &&
+          instructions.map((instruction, index) => (
+            <div className="instruction-row" key={index}>
+              <label htmlFor={`instruction-${index}`}>
+                Instruction {index + 1}
+                <input
+                  type="text"
+                  id={`instruction-${index}`}
+                  name={`instruction-${index}`}
+                  onChange={handleInstructionChange}
+                  value={instruction}
+                  data-index={index}
+                  required
+                />
+              </label>
+              <div className="instruction-row__remove-button">
+                <button onClick={removeInstruction} data-index={index}>
+                  Remove Instruction
+                </button>
+              </div>
+            </div>
+          ))}
+        <button onClick={addInstruction}>Add Instruction</button>
       </fieldset>
-      {/* <JSONPretty data={{ title, description, ingredients }} /> */}
-      <h3>Instructions: Coming soon!</h3>
-      <div>
+      {/* <JSONPretty data={{ title, description, ingredients, instructions }} /> */}
+      <div className="recipe-form__submit">
         <button type="submit">Add Recipe!</button>
       </div>
     </form>

@@ -54,6 +54,9 @@ form {
   grid-template-columns: 2fr 2fr 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 20px;
+  @include break-point(mobile) {
+    display: block;
+  }
 }
 
 .ingredient-row__remove-button {
@@ -61,6 +64,38 @@ form {
   align-items: center;
   button {
     width: 100%;
-    height: 50px;
+    // height: 50px;
+  }
+  margin-bottom: 5px;
+}
+
+.instruction-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-column-gap: 20px;
+  @include break-point(mobile) {
+    display: block;
+  }
+}
+
+.instruction-row__remove-button {
+  display: flex;
+  align-items: center;
+  button {
+    width: 100%;
+    // height: 50px;
+  }
+  margin-bottom: 5px;
+}
+
+.recipe-form__submit {
+  margin: 1em 0;
+}
+
+.image-dropzone {
+  border: 2px dashed $primary-color;
+
+  p {
+    margin: 1em;
   }
 }

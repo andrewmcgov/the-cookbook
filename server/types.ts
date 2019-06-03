@@ -15,7 +15,8 @@ export interface IIngredient {
 export interface IRecipe extends Document {
   title: string;
   description: string;
-  ingredients: [IIngredient];
+  ingredients: IIngredient[];
+  instructions: string[];
   author: Types.ObjectId;
   createdAt: string;
   updatedAt: string;

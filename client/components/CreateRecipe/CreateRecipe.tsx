@@ -11,11 +11,13 @@ const CREATE_RECIPE_MUTATION = gql`
     $title: String
     $description: String
     $ingredients: [IngredientInput]
+    $instructions: [String]
   ) {
     createRecipe(
       title: $title
       description: $description
       ingredients: $ingredients
+      instructions: $instructions
     ) {
       title
       description
@@ -23,6 +25,7 @@ const CREATE_RECIPE_MUTATION = gql`
         amount
         name
       }
+      instructions
       createdAt
       updatedAt
       slug
