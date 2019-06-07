@@ -115,9 +115,14 @@ const mutation = new GraphQLObjectType({
         title: { type: GraphQLString },
         description: { type: GraphQLString },
         ingredients: { type: new GraphQLList(IngredientInput) },
-        instructions: { type: new GraphQLList(GraphQLString) }
+        instructions: { type: new GraphQLList(GraphQLString) },
+        image: { type: GraphQLString }
       },
-      async resolve(_, { title, description, ingredients, instructions }, ctx) {
+      async resolve(
+        _,
+        { title, description, ingredients, instructions, image },
+        ctx
+      ) {
         const token = await ctx.cookies.get('token');
 
         if (!token) {
@@ -130,6 +135,7 @@ const mutation = new GraphQLObjectType({
           description,
           ingredients,
           instructions,
+          image,
           author: userId,
           createdAt: Date.now()
         }).save();

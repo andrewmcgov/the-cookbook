@@ -41,6 +41,7 @@ export const RecipeType = new GraphQLObjectType({
     description: { type: GraphQLString },
     ingredients: { type: new GraphQLList(IngredientType) },
     instructions: { type: new GraphQLList(GraphQLString) },
+    image: { type: GraphQLString },
     author: { type: GraphQLID },
     createdAt: { type: GraphQLString },
     updatedAt: { type: GraphQLString },

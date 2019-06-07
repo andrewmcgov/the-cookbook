@@ -24,6 +24,9 @@ const recipeSchema: Schema = new Schema({
     type: [String],
     required: true
   },
+  image: {
+    type: String
+  },
   author: {
     type: Types.ObjectId,
     required: true

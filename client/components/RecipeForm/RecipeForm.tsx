@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import JSONPretty from 'react-json-pretty';
 import { MutationFn } from 'react-apollo';
 
@@ -9,11 +9,9 @@ interface Ingredient {
   name: string;
 }
 
-interface State {
-  title: string;
-  description: string;
-  ingredients: Ingredient[];
-  instructions: string[];
+interface ImageResponse {
+  image?: string;
+  errorMessage?: string;
 }
 
 interface Props {
@@ -74,6 +72,20 @@ interface UPDATE_INSTRUCTION_VALUE {
   };
 }
 
+interface UPDATE_IMAGE_FILE {
+  type: 'UPDATE_IMAGE_FILE';
+  payload: {
+    imageFile: File | null;
+  };
+}
+
+interface UPDATE_IMAGE {
+  type: 'UPDATE_IMAGE';
+  payload: {
+    image: string;
+  };
+}
+
 type Actions =
   | ADD_INGREDIENT
   | UPDATE_INGREDIENT_VALUE
@@ -81,13 +93,26 @@ type Actions =
   | ADD_INSTRUCTION
   | REMOVE_INSTRUCTION
   | UPDATE_INSTRUCTION_VALUE
-  | UPDATE_FORM_VALUE;
+  | UPDATE_FORM_VALUE
+  | UPDATE_IMAGE
+  | UPDATE_IMAGE_FILE;
+
+interface State {
+  title: string;
+  description: string;
+  ingredients: Ingredient[];
+  instructions: string[];
+  image: string;
+  imageFile: File | null;
+}
 
 const initialState: State = {
   title: '',
   description: '',
   ingredients: [{ amount: '', name: '' }],
-  instructions: ['']
+  instructions: [''],
+  image: '',
+  imageFile: null
 };
 
 function formReducer(state: State, action: Actions): State {
@@ -131,6 +156,16 @@ function formReducer(state: State, action: Actions): State {
       ingredientStateUpdate.instructions[action.payload.instructionIndex] =
         action.payload.updatedInstruction;
       return ingredientStateUpdate;
+    case 'UPDATE_IMAGE_FILE':
+      return {
+        ...state,
+        imageFile: action.payload.imageFile
+      };
+    case 'UPDATE_IMAGE':
+      return {
+        ...state,
+        image: action.payload.image
+      };
     default:
       return {
         ...state
@@ -140,9 +175,10 @@ function formReducer(state: State, action: Actions): State {
 
 function RecipeForm(props: Props) {
   const [
-    { title, description, ingredients, instructions },
+    { title, description, ingredients, instructions, image, imageFile },
     dispatch
   ] = React.useReducer(formReducer, initialState);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -221,21 +257,65 @@ function RecipeForm(props: Props) {
     });
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function updateImageFile(imageFile: File) {
+    dispatch({
+      type: 'UPDATE_IMAGE_FILE',
+      payload: { imageFile }
+    });
+  }
+
+  async function getAndSetImageUrl() {
+    if (imageFile === null) {
+      return;
+    }
+    // Send fetch to backend with image file
+    const formData = new FormData();
+    formData.append('imageFile', imageFile);
+    const data = await fetch('/api/images/save', {
+      method: 'POST',
+      credentials: 'include',
+      body: formData
+    });
+    const imageResponse: ImageResponse = await data.json();
+
+    // Set returned image to state
+    if (imageResponse.image) {
+      dispatch({
+        type: 'UPDATE_IMAGE',
+        payload: {
+          image: imageResponse.image
+        }
+      });
+    } else if (imageResponse.errorMessage) {
+      console.error(imageResponse.errorMessage);
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setFormSubmitting(true);
+    if (imageFile !== null) {
+      const imageSaved = getAndSetImageUrl();
+      if (!imageSaved) {
+        // will need to show an error message here
+        return false;
+      }
+    }
     props.onSubmit({
       variables: {
         title,
         description,
         ingredients,
-        instructions
+        instructions,
+        image
       }
     });
+    setFormSubmitting(false);
   }
 
   return (
     <form action="" className="recipe-form" onSubmit={handleSubmit}>
-      <fieldset disabled={props.loading}>
+      <fieldset disabled={props.loading || formSubmitting}>
         <label htmlFor="title">
           Title
           <input
@@ -259,7 +339,7 @@ function RecipeForm(props: Props) {
           />
         </label>
         <h3>Image</h3>
-        <ImageDropzone />
+        <ImageDropzone updateImage={updateImageFile} />
         <h3>Ingredients</h3>
         {ingredients.length > 0 &&
           ingredients.map((ingredient, index) => (
@@ -323,7 +403,16 @@ function RecipeForm(props: Props) {
           ))}
         <button onClick={addInstruction}>Add Instruction</button>
       </fieldset>
-      {/* <JSONPretty data={{ title, description, ingredients, instructions }} /> */}
+      {/* <JSONPretty
+        data={{
+          title,
+          description,
+          ingredients,
+          instructions,
+          imageFile,
+          image
+        }}
+      /> */}
       <div className="recipe-form__submit">
         <button type="submit">Add Recipe!</button>
       </div>

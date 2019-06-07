@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
-interface Props {}
+interface Props {
+  updateImage: (ImageFile: File) => void;
+}
 
 interface ImageFile extends File {
   path: string;
@@ -11,10 +13,15 @@ interface ImageFile extends File {
 }
 
 function ImageDropzone(props: Props) {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const onDrop = React.useCallback(acceptedFiles => {
+    acceptedFiles.length > 0 && props.updateImage(acceptedFiles[0]);
+  }, []);
+
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop
+  });
 
   const files = acceptedFiles.map((file: ImageFile) => {
-    console.log(file);
     return (
       <img width="200" key={file.path} src={URL.createObjectURL(file)} alt="" />
     );
