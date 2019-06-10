@@ -31,7 +31,8 @@ app.use(serve(path.join(__dirname, '../../dist')));
 
 // Connect to our database
 mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 });
 
 const db = mongoose.connection;

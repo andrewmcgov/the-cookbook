@@ -3,6 +3,7 @@ import JSONPretty from 'react-json-pretty';
 import { MutationFn } from 'react-apollo';
 
 import ImageDropzone from './components/ImageDropzone';
+import { IRecipe } from '../types';
 
 interface Ingredient {
   amount: string;
@@ -17,6 +18,7 @@ interface ImageResponse {
 interface Props {
   onSubmit: MutationFn;
   loading: boolean;
+  recipe?: IRecipe;
 }
 
 interface UPDATE_FORM_VALUE {
@@ -79,10 +81,10 @@ interface UPDATE_IMAGE_FILE {
   };
 }
 
-interface UPDATE_IMAGE {
-  type: 'UPDATE_IMAGE';
+interface SET_FORM_SUBMITTING {
+  type: 'SET_FORM_SUBMITTING';
   payload: {
-    image: string;
+    isSubmitting: boolean;
   };
 }
 
@@ -94,26 +96,19 @@ type Actions =
   | REMOVE_INSTRUCTION
   | UPDATE_INSTRUCTION_VALUE
   | UPDATE_FORM_VALUE
-  | UPDATE_IMAGE
+  | SET_FORM_SUBMITTING
   | UPDATE_IMAGE_FILE;
 
 interface State {
+  slug?: string;
   title: string;
   description: string;
   ingredients: Ingredient[];
   instructions: string[];
   image: string;
   imageFile: File | null;
+  formSubmitting: boolean;
 }
-
-const initialState: State = {
-  title: '',
-  description: '',
-  ingredients: [{ amount: '', name: '' }],
-  instructions: [''],
-  image: '',
-  imageFile: null
-};
 
 function formReducer(state: State, action: Actions): State {
   switch (action.type) {
@@ -161,10 +156,10 @@ function formReducer(state: State, action: Actions): State {
         ...state,
         imageFile: action.payload.imageFile
       };
-    case 'UPDATE_IMAGE':
+    case 'SET_FORM_SUBMITTING':
       return {
         ...state,
-        image: action.payload.image
+        formSubmitting: action.payload.isSubmitting
       };
     default:
       return {
@@ -174,11 +169,52 @@ function formReducer(state: State, action: Actions): State {
 }
 
 function RecipeForm(props: Props) {
+  const initialRecipe = props.recipe;
+  const e: State = props.recipe
+    ? {
+        ...props.recipe,
+        imageFile: null,
+        formSubmitting: false
+      }
+    : {
+        title: '',
+        description: '',
+        ingredients: [{ amount: '', name: '' }],
+        instructions: [''],
+        image: '',
+        imageFile: null,
+        formSubmitting: false
+      };
+
+  const initialState = {
+    slug: initialRecipe ? initialRecipe.slug : '',
+    title: initialRecipe ? initialRecipe.title : '',
+    description: initialRecipe ? initialRecipe.description : '',
+    ingredients: initialRecipe
+      ? initialRecipe.ingredients.map((i: Ingredient) => ({
+          amount: i.amount,
+          name: i.name
+        }))
+      : [{ amount: '', name: '' }],
+    instructions: initialRecipe ? initialRecipe.instructions : [''],
+    image: initialRecipe ? initialRecipe.image : '',
+    imageFile: null,
+    formSubmitting: false
+  };
+
   const [
-    { title, description, ingredients, instructions, image, imageFile },
+    {
+      slug,
+      title,
+      description,
+      ingredients,
+      instructions,
+      image,
+      imageFile,
+      formSubmitting
+    },
     dispatch
   ] = React.useReducer(formReducer, initialState);
-  const [formSubmitting, setFormSubmitting] = useState(false);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -280,12 +316,7 @@ function RecipeForm(props: Props) {
 
     // Set returned image to state
     if (imageResponse.image) {
-      dispatch({
-        type: 'UPDATE_IMAGE',
-        payload: {
-          image: imageResponse.image
-        }
-      });
+      return imageResponse.image;
     } else if (imageResponse.errorMessage) {
       console.error(imageResponse.errorMessage);
     }
@@ -293,24 +324,36 @@ function RecipeForm(props: Props) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setFormSubmitting(true);
-    if (imageFile !== null) {
-      const imageSaved = getAndSetImageUrl();
-      if (!imageSaved) {
-        // will need to show an error message here
-        return false;
+    dispatch({
+      type: 'SET_FORM_SUBMITTING',
+      payload: {
+        isSubmitting: true
       }
+    });
+
+    let imageUrl = image || '';
+
+    if (imageFile !== null) {
+      imageUrl = await getAndSetImageUrl();
     }
+
     props.onSubmit({
       variables: {
+        slug,
         title,
         description,
         ingredients,
         instructions,
-        image
+        image: imageUrl
       }
     });
-    setFormSubmitting(false);
+
+    dispatch({
+      type: 'SET_FORM_SUBMITTING',
+      payload: {
+        isSubmitting: false
+      }
+    });
   }
 
   return (
@@ -339,7 +382,7 @@ function RecipeForm(props: Props) {
           />
         </label>
         <h3>Image</h3>
-        <ImageDropzone updateImage={updateImageFile} />
+        <ImageDropzone updateImage={updateImageFile} currentImage={image} />
         <h3>Ingredients</h3>
         {ingredients.length > 0 &&
           ingredients.map((ingredient, index) => (
@@ -402,20 +445,12 @@ function RecipeForm(props: Props) {
             </div>
           ))}
         <button onClick={addInstruction}>Add Instruction</button>
+        <div className="recipe-form__submit">
+          <button type="submit">
+            {formSubmitting || props.loading ? 'Saving...' : 'Save Recipe!'}
+          </button>
+        </div>
       </fieldset>
-      {/* <JSONPretty
-        data={{
-          title,
-          description,
-          ingredients,
-          instructions,
-          imageFile,
-          image
-        }}
-      /> */}
-      <div className="recipe-form__submit">
-        <button type="submit">Add Recipe!</button>
-      </div>
     </form>
   );
 }

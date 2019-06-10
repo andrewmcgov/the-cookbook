@@ -1,11 +1,13 @@
-import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 import * as mongoose from 'mongoose';
 import * as jwt from 'jsonwebtoken';
 
-import { UserType } from '../graphql-types';
-import { IUser } from '../types';
+import { UserType, RecipeType } from '../graphql-types';
+import { IUser, IRecipe } from '../types';
+import { resolve } from 'dns';
 
 const User = mongoose.model('User');
+const Recipe = mongoose.model('Recipe');
 
 const query = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -39,6 +41,26 @@ const query = new GraphQLObjectType({
         }
 
         return null;
+      }
+    },
+    getRecipe: {
+      type: RecipeType,
+      args: { slug: { type: GraphQLString } },
+      async resolve(_, { slug }, ctx) {
+        const [recipe] = <IRecipe[]>await Recipe.find({ slug }).exec();
+
+        if (!recipe) {
+          throw new Error('Could not find Recipe!');
+        }
+
+        return recipe;
+      }
+    },
+    getRecipes: {
+      type: new GraphQLList(RecipeType),
+      async resolve(_, args, ctx) {
+        const recipes = <IRecipe[]>await Recipe.find();
+        return recipes;
       }
     }
   }

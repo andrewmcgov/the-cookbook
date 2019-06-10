@@ -2,7 +2,7 @@ import React from 'react';
 
 interface Props {
   title?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Page = ({ title, children }: Props) => (
