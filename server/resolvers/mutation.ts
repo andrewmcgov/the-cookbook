@@ -1,14 +1,30 @@
-import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
-import { UserType } from '../graphql-types';
-import { IUser } from '../types';
+interface Token {
+  _id: ObjectID;
+}
+
+import {
+  UserType,
+  RecipeType,
+  RecipeInput,
+  IngredientType,
+  IngredientInput,
+  ImageInput
+} from '../graphql-types';
+
+import { IUser, IRecipe } from '../types';
+import { resolve } from 'url';
+import { ObjectID } from 'bson';
 
 const User = mongoose.model('User');
+const Recipe = mongoose.model('Recipe');
 
 const mutation = new GraphQLObjectType({
+  // User Accounts ***************************************
   name: 'RootMutationType',
   fields: {
     testMutation: {
@@ -94,8 +110,92 @@ const mutation = new GraphQLObjectType({
     signOut: {
       type: GraphQLString,
       async resolve(_, __, ctx) {
+        console.log('signout');
         ctx.cookies.set('token');
         return 'You have logged out!';
+      }
+    },
+    // Recipes ********************************************
+    createRecipe: {
+      type: RecipeType,
+      args: {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        ingredients: { type: new GraphQLList(IngredientInput) },
+        instructions: { type: new GraphQLList(GraphQLString) },
+        image: { type: ImageInput }
+      },
+      async resolve(
+        _,
+        { title, description, ingredients, instructions, image },
+        ctx
+      ) {
+        const token = await ctx.cookies.get('token');
+
+        if (!token) {
+          throw new Error('You must be logged in to create a recipe!');
+        }
+
+        const userId = jwt.verify(token, process.env.APP_SECRET);
+        const recipe = await new Recipe({
+          title,
+          description,
+          ingredients,
+          instructions,
+          image,
+          author: userId,
+          createdAt: Date.now()
+        }).save();
+
+        return recipe;
+      }
+    },
+    editRecipe: {
+      type: RecipeType,
+      args: {
+        slug: { type: GraphQLString },
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        ingredients: { type: new GraphQLList(IngredientInput) },
+        instructions: { type: new GraphQLList(GraphQLString) },
+        image: { type: ImageInput }
+      },
+      async resolve(
+        _,
+        { slug, title, description, ingredients, instructions, image },
+        ctx
+      ) {
+        // Check that the user is logged in
+        const token = await ctx.cookies.get('token');
+
+        if (!token) {
+          throw new Error('You must be logged in to create a recipe!');
+        }
+        // Get the Recipe from the database
+        const recipe = <IRecipe>await Recipe.findOne({ slug }).exec();
+
+        // Make sure this user is able to edit this recipe
+        const userId = <Token>jwt.verify(token, process.env.APP_SECRET);
+
+        if (userId._id != recipe.author) {
+          throw new Error('You can only edit your own recipes!');
+        }
+
+        // Save the new recipe to the database
+        const updatedRecipe = <IRecipe>await Recipe.findOneAndUpdate(
+          { slug },
+          {
+            title,
+            description,
+            ingredients,
+            instructions,
+            image,
+            updatedAt: Date.now()
+          }
+        );
+
+        // Return the new recipe
+        return updatedRecipe;
       }
     }
   }

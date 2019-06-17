@@ -33,6 +33,9 @@ const MobileNav = (props: Props) => {
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
           <Link to="/account">Account</Link>
         </li>
+        <li onClick={() => closeFn(false)} className="mobile-nav__item">
+          <Link to="/recipes/new">New Recipe</Link>
+        </li>
       </ul>
     </div>
   );

@@ -17,7 +17,7 @@ function SignOut() {
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
       {(signOut: MutationFn, { loading }) => (
-        <button onClick={() => signOut} disabled={loading}>
+        <button onClick={() => signOut()} disabled={loading}>
           Sign out!
         </button>
       )}

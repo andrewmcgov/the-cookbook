@@ -63,51 +63,65 @@ function SignIn() {
             className="signin-form"
           >
             <fieldset disabled={loading}>
-              <label htmlFor="signin:firstName">First name</label>
-              <input
-                type="text"
-                name="firstName"
-                placeholder="First name"
-                id="signup:firstName"
-                value={firstName}
-                onChange={e => setFirstName(e.target.value)}
-              />
-              <label htmlFor="signin:lastName">Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                placeholder="Last name"
-                id="signup:lastName"
-                value={lastName}
-                onChange={e => setLastName(e.target.value)}
-              />
-              <label htmlFor="signin:email">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="email"
-                id="signup:email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-              <label htmlFor="signin:password">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                id="signup:password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <label htmlFor="signin:repeatPassword">Repeat Password</label>
-              <input
-                type="password"
-                name="repeatPassword"
-                placeholder="Repeat password"
-                id="signup:repeatPassword"
-                value={repeatPassword}
-                onChange={e => setRepeatPassword(e.target.value)}
-              />
+              <div className="form-input-pairing">
+                <label htmlFor="signin:firstName">
+                  First name
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First name"
+                    id="signup:firstName"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                  />
+                </label>
+                <label htmlFor="signin:lastName">
+                  Last Name
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last name"
+                    id="signup:lastName"
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
+                  />
+                </label>
+              </div>
+              <label htmlFor="signin:email">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  id="signup:email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </label>
+              <div className="form-input-pairing">
+                <label htmlFor="signin:password">
+                  Password
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    id="signup:password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                  />
+                </label>
+                <label htmlFor="signin:repeatPassword">
+                  Repeat Password
+                  <input
+                    type="password"
+                    name="repeatPassword"
+                    placeholder="Repeat password"
+                    id="signup:repeatPassword"
+                    value={repeatPassword}
+                    onChange={e => setRepeatPassword(e.target.value)}
+                  />
+                </label>
+              </div>
               <button type="submit">Sign up!</button>
             </fieldset>
           </form>

@@ -1,5 +1,3 @@
-import { Document, Types } from 'mongoose';
-
 export interface IUser extends Document {
   email: string;
   firstName: string;
@@ -12,23 +10,18 @@ export interface IIngredient {
   name: string;
 }
 
-export interface IRecipe extends Document {
+export interface IRecipe {
   title: string;
   description: string;
   ingredients: IIngredient[];
   instructions: string[];
+  author: IUser;
   image: {
     small: string;
     medium: string;
     large: string;
   };
-  author: Types.ObjectId;
   createdAt: string;
   updatedAt: string;
   slug: string;
-}
-
-export interface IAuthour {
-  _id: string;
-  recipes: IRecipe[];
 }

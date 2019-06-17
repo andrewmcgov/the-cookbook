@@ -1,22 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from '../Header';
 import Account from '../Account';
-
-function Index() {
-  return (
-    <div>
-      <p>Homepage</p>
-    </div>
-  );
-}
+import CreateRecipe from '../CreateRecipe';
+import EditRecipe from '../EditRecipe';
+import RecipePage from '../RecipePage';
+import HomePage from '../HomePage';
 
 const Layout = () => (
   <Router>
     <Header />
-    <Route path="/" exact component={Index} />
-    <Route path="/account" component={Account} />
+    <Switch>
+      <Route path="/" exact component={HomePage} />
+      <Route path="/account" component={Account} />
+      <Route path="/recipes/new" exact component={CreateRecipe} />
+      <Route path="/recipes/:id/edit" exact component={EditRecipe} />
+      <Route path="/recipes/:id" exact component={RecipePage} />
+    </Switch>
   </Router>
 );
 
