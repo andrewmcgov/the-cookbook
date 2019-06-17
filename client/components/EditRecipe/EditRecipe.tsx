@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation, Query, MutationFn } from 'react-apollo';
 import gql from 'graphql-tag';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Page from '../Page';
@@ -17,7 +17,7 @@ const EDIT_RECIPE_MUTATION = gql`
     $description: String
     $ingredients: [IngredientInput]
     $instructions: [String]
-    $image: String
+    $image: ImageInput
   ) {
     editRecipe(
       slug: $slug
@@ -34,7 +34,11 @@ const EDIT_RECIPE_MUTATION = gql`
         name
       }
       instructions
-      image
+      image {
+        small
+        medium
+        large
+      }
       createdAt
       updatedAt
       slug
@@ -65,8 +69,15 @@ function EditRecipe({ match }: RouteComponentProps<Params>) {
           <Page title={`Edit ${recipe.title}`}>
             <Link to={`/recipes/${recipe.slug}`}>Cancel</Link>
             <Mutation mutation={EDIT_RECIPE_MUTATION}>
-              {(createRecipe: MutationFn, { loading, error }) => {
+              {(createRecipe: MutationFn, { loading, error, data }) => {
                 if (error) return <Error error={error} />;
+                if (data && data.editRecipe) {
+                  const slug = data.editRecipe.slug;
+
+                  if (slug) {
+                    return <Redirect to={`/recipes/${slug}`} />;
+                  }
+                }
                 return (
                   <RecipeForm
                     onSubmit={createRecipe}

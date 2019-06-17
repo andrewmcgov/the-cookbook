@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import {
   GraphQLID,
   GraphQLObjectType,
@@ -6,6 +7,11 @@ import {
   GraphQLInt,
   GraphQLInputObjectType
 } from 'graphql';
+
+import { IRecipe, IUser, IAuthour } from './types';
+
+const User = mongoose.model('User');
+const Recipe = mongoose.model('Recipe');
 
 // Define all reusible GraphQL types in here
 
@@ -16,6 +22,20 @@ export const UserType = new GraphQLObjectType({
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString }
   }
+});
+
+export const AuthorType: GraphQLObjectType = new GraphQLObjectType({
+  name: 'AuthorType',
+  fields: () => ({
+    _id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    recipes: {
+      type: new GraphQLList(RecipeType),
+      async resolve(parentValue: IAuthour) {
+        return await Recipe.find({ author: parentValue._id });
+      }
+    }
+  })
 });
 
 export const IngredientType = new GraphQLObjectType({
@@ -34,6 +54,24 @@ export const IngredientInput = new GraphQLInputObjectType({
   }
 });
 
+export const ImageType = new GraphQLObjectType({
+  name: 'Image',
+  fields: {
+    small: { type: GraphQLString },
+    medium: { type: GraphQLString },
+    large: { type: GraphQLString }
+  }
+});
+
+export const ImageInput = new GraphQLInputObjectType({
+  name: 'ImageInput',
+  fields: {
+    small: { type: GraphQLString },
+    medium: { type: GraphQLString },
+    large: { type: GraphQLString }
+  }
+});
+
 export const RecipeType = new GraphQLObjectType({
   name: 'Recipe',
   fields: {
@@ -41,8 +79,22 @@ export const RecipeType = new GraphQLObjectType({
     description: { type: GraphQLString },
     ingredients: { type: new GraphQLList(IngredientType) },
     instructions: { type: new GraphQLList(GraphQLString) },
-    image: { type: GraphQLString },
-    author: { type: GraphQLID },
+    image: { type: ImageType },
+    author: {
+      type: AuthorType,
+      async resolve(parentValue: IRecipe) {
+        const user = <IUser>await User.findById(parentValue.author);
+
+        if (user == null) {
+          throw new Error('Could not find author for this recipe');
+        }
+
+        return {
+          _id: user._id,
+          name: `${user.firstName} ${user.lastName.substring(0, 1)}`
+        };
+      }
+    },
     createdAt: { type: GraphQLString },
     updatedAt: { type: GraphQLString },
     slug: { type: GraphQLString }

@@ -12,8 +12,10 @@ import {
   RecipeType,
   RecipeInput,
   IngredientType,
-  IngredientInput
+  IngredientInput,
+  ImageInput
 } from '../graphql-types';
+
 import { IUser, IRecipe } from '../types';
 import { resolve } from 'url';
 import { ObjectID } from 'bson';
@@ -121,7 +123,7 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLString },
         ingredients: { type: new GraphQLList(IngredientInput) },
         instructions: { type: new GraphQLList(GraphQLString) },
-        image: { type: GraphQLString }
+        image: { type: ImageInput }
       },
       async resolve(
         _,
@@ -156,7 +158,7 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLString },
         ingredients: { type: new GraphQLList(IngredientInput) },
         instructions: { type: new GraphQLList(GraphQLString) },
-        image: { type: GraphQLString }
+        image: { type: ImageInput }
       },
       async resolve(
         _,
@@ -174,8 +176,6 @@ const mutation = new GraphQLObjectType({
 
         // Make sure this user is able to edit this recipe
         const userId = <Token>jwt.verify(token, process.env.APP_SECRET);
-
-        console.log({ userId, author: String(recipe.author) });
 
         if (userId._id != recipe.author) {
           throw new Error('You can only edit your own recipes!');

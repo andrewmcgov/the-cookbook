@@ -16,7 +16,11 @@ export interface IRecipe {
   ingredients: IIngredient[];
   instructions: string[];
   author: IUser;
-  image: string;
+  image: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   createdAt: string;
   updatedAt: string;
   slug: string;

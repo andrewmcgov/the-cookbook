@@ -17,8 +17,14 @@ const GET_RECIPES_QUERY = gql`
         amount
       }
       instructions
-      image
-      author
+      image {
+        small
+        medium
+        large
+      }
+      author {
+        name
+      }
       createdAt
       updatedAt
       slug

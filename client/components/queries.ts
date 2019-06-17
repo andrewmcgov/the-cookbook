@@ -10,8 +10,14 @@ export const GET_RECIPE = gql`
         amount
       }
       instructions
-      image
-      author
+      image {
+        small
+        medium
+        large
+      }
+      author {
+        name
+      }
       createdAt
       updatedAt
       slug

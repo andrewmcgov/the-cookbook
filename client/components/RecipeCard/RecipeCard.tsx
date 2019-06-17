@@ -11,9 +11,9 @@ function RecipeCard({ recipe }: Props) {
   return (
     <Link className="recipe-card__link" to={`recipes/${slug}`}>
       <div className="recipe-card">
-        {image !== '' && (
+        {image.medium !== '' && (
           <div className="recipe-card__image-wrapper">
-            <img className="recipe-card__image" src={image} alt="" />
+            <img className="recipe-card__image" src={image.medium} alt="" />
           </div>
         )}
         <div className="recipe-card__info">

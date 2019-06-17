@@ -37,7 +37,10 @@ function ImageDropzone({ updateImage, currentImage }: Props) {
     <div>
       <div {...getRootProps({ className: 'image-dropzone' })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>
+          Drag 'n' drop an image here, or click to select files. If uploading
+          from an iPhone, a Live Photo will not work.
+        </p>
       </div>
       <div className="recipe-form__image">{imageContent}</div>
     </div>

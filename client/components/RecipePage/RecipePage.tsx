@@ -40,8 +40,8 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
         return (
           <Page title={title}>
             <Link to={`/recipes/${slug}/edit`}>Edit this Recipe</Link>
-            {image !== '' && (
-              <img className="recipe__image" src={image} alt={title} />
+            {image.medium !== '' && (
+              <img className="recipe__image" src={image.medium} alt={title} />
             )}
             <div className="recipe__description">
               <p>{description}</p>

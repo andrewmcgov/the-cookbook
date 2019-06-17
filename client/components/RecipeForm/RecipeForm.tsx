@@ -11,7 +11,11 @@ interface Ingredient {
 }
 
 interface ImageResponse {
-  image?: string;
+  image?: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   errorMessage?: string;
 }
 
@@ -105,7 +109,11 @@ interface State {
   description: string;
   ingredients: Ingredient[];
   instructions: string[];
-  image: string;
+  image: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   imageFile: File | null;
   formSubmitting: boolean;
 }
@@ -170,21 +178,6 @@ function formReducer(state: State, action: Actions): State {
 
 function RecipeForm(props: Props) {
   const initialRecipe = props.recipe;
-  const e: State = props.recipe
-    ? {
-        ...props.recipe,
-        imageFile: null,
-        formSubmitting: false
-      }
-    : {
-        title: '',
-        description: '',
-        ingredients: [{ amount: '', name: '' }],
-        instructions: [''],
-        image: '',
-        imageFile: null,
-        formSubmitting: false
-      };
 
   const initialState = {
     slug: initialRecipe ? initialRecipe.slug : '',
@@ -197,7 +190,13 @@ function RecipeForm(props: Props) {
         }))
       : [{ amount: '', name: '' }],
     instructions: initialRecipe ? initialRecipe.instructions : [''],
-    image: initialRecipe ? initialRecipe.image : '',
+    image: initialRecipe
+      ? initialRecipe.image
+      : {
+          small: '',
+          medium: '',
+          large: ''
+        },
     imageFile: null,
     formSubmitting: false
   };
@@ -306,7 +305,9 @@ function RecipeForm(props: Props) {
     }
     // Send fetch to backend with image file
     const formData = new FormData();
+
     formData.append('imageFile', imageFile);
+
     const data = await fetch('/api/images/save', {
       method: 'POST',
       credentials: 'include',
@@ -331,10 +332,10 @@ function RecipeForm(props: Props) {
       }
     });
 
-    let imageUrl = image || '';
+    let imageUrls = image;
 
     if (imageFile !== null) {
-      imageUrl = await getAndSetImageUrl();
+      imageUrls = await getAndSetImageUrl();
     }
 
     props.onSubmit({
@@ -344,7 +345,11 @@ function RecipeForm(props: Props) {
         description,
         ingredients,
         instructions,
-        image: imageUrl
+        image: {
+          small: imageUrls.small,
+          medium: imageUrls.medium,
+          large: imageUrls.large
+        }
       }
     });
 
@@ -382,7 +387,10 @@ function RecipeForm(props: Props) {
           />
         </label>
         <h3>Image</h3>
-        <ImageDropzone updateImage={updateImageFile} currentImage={image} />
+        <ImageDropzone
+          updateImage={updateImageFile}
+          currentImage={image.medium}
+        />
         <h3>Ingredients</h3>
         {ingredients.length > 0 &&
           ingredients.map((ingredient, index) => (

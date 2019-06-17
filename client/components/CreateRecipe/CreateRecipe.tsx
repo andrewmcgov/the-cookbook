@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mutation, MutationFn } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Redirect } from 'react-router';
 
 import Page from '../Page';
 import RecipeForm from '../RecipeForm';
@@ -12,7 +13,7 @@ const CREATE_RECIPE_MUTATION = gql`
     $description: String
     $ingredients: [IngredientInput]
     $instructions: [String]
-    $image: String
+    $image: ImageInput
   ) {
     createRecipe(
       title: $title
@@ -28,7 +29,11 @@ const CREATE_RECIPE_MUTATION = gql`
         name
       }
       instructions
-      image
+      image {
+        small
+        medium
+        large
+      }
       createdAt
       updatedAt
       slug
@@ -40,12 +45,24 @@ function CreateRecipe() {
   return (
     <Page title="Add new Recipe!">
       <Mutation mutation={CREATE_RECIPE_MUTATION}>
-        {(createRecipe: MutationFn, { loading, error }) => (
-          <div>
-            {error && <Error error={error} />}
-            <RecipeForm onSubmit={createRecipe} loading={loading} />
-          </div>
-        )}
+        {(createRecipe: MutationFn, { loading, error, data }) => {
+          if (error) return <Error error={error} />;
+
+          if (data && data.createRecipe) {
+            const slug = data.createRecipe.slug;
+
+            if (slug) {
+              return <Redirect to={`/recipes/${slug}`} />;
+            }
+          }
+
+          return (
+            <div>
+              {error && <Error error={error} />}
+              <RecipeForm onSubmit={createRecipe} loading={loading} />
+            </div>
+          );
+        }}
       </Mutation>
     </Page>
   );

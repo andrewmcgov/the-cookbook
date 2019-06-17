@@ -25,7 +25,15 @@ const recipeSchema: Schema = new Schema({
     required: true
   },
   image: {
-    type: String
+    small: {
+      type: String
+    },
+    medium: {
+      type: String
+    },
+    large: {
+      type: String
+    }
   },
   author: {
     type: Types.ObjectId,
