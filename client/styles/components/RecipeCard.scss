@@ -1,0 +1,45 @@
+// Recipe Card Component
+// ******************************************
+
+.recipe-card {
+  display: flex;
+  margin-bottom: 2rem;
+  @include break-point(mobile) {
+    flex-direction: column;
+  }
+}
+
+.recipe-card__link {
+  text-decoration: none;
+}
+
+.recipe-card__image-wrapper {
+  width: 50%;
+  margin-right: 15px;
+  @include break-point(mobile) {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.recipe-card__image {
+  max-width: 100%;
+}
+
+.recipe-card__info {
+  width: 50%;
+  @include break-point(mobile) {
+    width: 100%;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+.recipe-card__title {
+  text-decoration: none;
+  font-size: 2rem;
+  @include break-point(mobile) {
+    margin: 1rem 0;
+  }
+}

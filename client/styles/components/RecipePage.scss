@@ -1,0 +1,11 @@
+// Recipe Page Component
+// ******************************************
+.recipe__image {
+  display: block;
+  width: 50%;
+  margin: 1em auto;
+  max-width: 100%;
+  @include break-point(mobile) {
+    width: 100%;
+  }
+}

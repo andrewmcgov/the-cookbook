@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import JSONPretty from 'react-json-pretty';
+import React from 'react';
 import { MutationFn } from 'react-apollo';
+import { IconContext } from 'react-icons';
+import { FiTrash2 } from 'react-icons/fi';
 
 import ImageDropzone from './components/ImageDropzone';
 import { IRecipe } from '../types';
@@ -278,7 +279,7 @@ function RecipeForm(props: Props) {
     });
   }
 
-  function handleInstructionChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInstructionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     e.preventDefault();
     const instructionIndex = parseInt(
       e.currentTarget.getAttribute('data-index')
@@ -395,7 +396,10 @@ function RecipeForm(props: Props) {
         {ingredients.length > 0 &&
           ingredients.map((ingredient, index) => (
             <div className="ingredient-row" key={index}>
-              <label htmlFor={`ingredient-amount-${index}`}>
+              <label
+                className="ingrediant-row__amount"
+                htmlFor={`ingredient-amount-${index}`}
+              >
                 Amount {index + 1}
                 <input
                   type="text"
@@ -408,12 +412,15 @@ function RecipeForm(props: Props) {
                   required
                 />
               </label>
-              <label htmlFor={`ingredient-amount-${index}`}>
+              <label
+                htmlFor={`ingredient-name-${index}`}
+                className="ingrediant-row__name"
+              >
                 Ingredient Name {index + 1}
                 <input
                   type="text"
-                  id={`ingredient-amount-${index}`}
-                  name={`ingredient-amount-${index}`}
+                  id={`ingredient-name-${index}`}
+                  name={`ingredient-name-${index}`}
                   onChange={handleIngredientChange}
                   value={ingredient.name}
                   data-index={index}
@@ -423,7 +430,9 @@ function RecipeForm(props: Props) {
               </label>
               <div className="ingredient-row__remove-button">
                 <button onClick={removeIngredient} data-index={index}>
-                  Remove Ingredient
+                  <IconContext.Provider value={{ size: '2rem' }}>
+                    <FiTrash2 />
+                  </IconContext.Provider>
                 </button>
               </div>
             </div>
@@ -435,19 +444,21 @@ function RecipeForm(props: Props) {
             <div className="instruction-row" key={index}>
               <label htmlFor={`instruction-${index}`}>
                 Instruction {index + 1}
-                <input
-                  type="text"
+                <textarea
                   id={`instruction-${index}`}
                   name={`instruction-${index}`}
                   onChange={handleInstructionChange}
                   value={instruction}
                   data-index={index}
                   required
+                  rows={3}
                 />
               </label>
               <div className="instruction-row__remove-button">
                 <button onClick={removeInstruction} data-index={index}>
-                  Remove Instruction
+                  <IconContext.Provider value={{ size: '2rem' }}>
+                    <FiTrash2 />
+                  </IconContext.Provider>
                 </button>
               </div>
             </div>

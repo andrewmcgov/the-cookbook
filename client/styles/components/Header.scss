@@ -3,12 +3,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid $primary-accent;
-  padding: 1.5rem;
+  padding: 0 1.5rem;
+  background-color: $primary-color;
+  position: fixed;
+  top: 0;
 }
 
 .header__title {
   font-size: 2.5em;
+  color: $secondary-color;
 
   @include break-point(tablet) {
     font-size: 2em;
@@ -27,5 +30,5 @@
   border-radius: 0;
   border: none;
   background: none;
-  color: $primary-color;
+  color: $secondary-color;
 }

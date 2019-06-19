@@ -11,6 +11,9 @@ import { Link } from 'react-router-dom';
 type Params = { id: string };
 
 function RecipePage({ match }: RouteComponentProps<Params>) {
+  const defaultImage =
+    'https://images.unsplash.com/photo-1522784081430-8ac6a122cbc8?q=75&fm=jpg&w=1080&fit=max';
+
   return (
     <Query query={GET_RECIPE} variables={{ slug: match.params.id }}>
       {({ data, loading, error }) => {
@@ -35,14 +38,14 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
           slug
         } = recipe;
 
-        console.log(image);
-
         return (
           <Page title={title}>
             <Link to={`/recipes/${slug}/edit`}>Edit this Recipe</Link>
-            {image.medium !== '' && (
-              <img className="recipe__image" src={image.medium} alt={title} />
-            )}
+            <img
+              className="recipe__image"
+              src={image.medium || defaultImage}
+              alt={title}
+            />
             <div className="recipe__description">
               <p>{description}</p>
             </div>

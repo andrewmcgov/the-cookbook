@@ -1,7 +1,7 @@
 .nav {
   list-style-type: none;
   display: flex;
-  padding: 1rem;
+  padding: 0 1rem;
 
   @include break-point(mobile) {
     display: none;
@@ -10,6 +10,11 @@
 
 .nav__item {
   padding: 0.5em;
+  a {
+    color: $white;
+    text-decoration: none;
+    font-size: 1.3rem;
+  }
 }
 
 // MOBILE NAV

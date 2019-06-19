@@ -1,0 +1,23 @@
+// Page styles
+// ******************************************
+.page-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 5rem auto 0 auto;
+  padding: 1em;
+  @include break-point(mobile) {
+    margin: 4rem auto 0 auto;
+  }
+}
+
+.page-header {
+  margin: 1em 0;
+  @include break-point(mobile) {
+    margin: 0;
+  }
+}
+
+.page-header__title {
+  font-size: 2em;
+  margin-top: 0;
+}

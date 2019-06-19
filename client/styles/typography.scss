@@ -6,6 +6,7 @@ h5,
 p,
 span,
 ul,
-li {
-  color: $primary-color;
+li,
+label {
+  color: $primary-body;
 }
