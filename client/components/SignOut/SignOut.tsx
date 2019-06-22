@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Mutation, MutationFn } from 'react-apollo';
 
-import { CURRENT_USER_QUERY } from '../Account/Account';
+import { CURRENT_USER_QUERY } from '../queries';
 
 const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {

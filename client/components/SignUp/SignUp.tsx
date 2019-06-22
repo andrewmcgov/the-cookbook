@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Mutation, MutationFn } from 'react-apollo';
 
-import { CURRENT_USER_QUERY } from '../Account/Account';
+import { CURRENT_USER_QUERY } from '../queries';
 
 const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
@@ -55,8 +55,8 @@ function SignIn() {
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
       {(signUp: MutationFn, { loading }) => (
-        <div className="form-card">
-          <h3>Sign up!</h3>
+        <div className="form-card account-form-card">
+          <h3 className="account-form-heading">Sign up!</h3>
           <form
             method="post"
             onSubmit={e => handleFormSubmit(e, signUp)}
@@ -122,7 +122,11 @@ function SignIn() {
                   />
                 </label>
               </div>
-              <button type="submit">Sign up!</button>
+              <div className="account-form-buttons">
+                <button className="button button-primary" type="submit">
+                  Sign up!
+                </button>
+              </div>
             </fieldset>
           </form>
         </div>

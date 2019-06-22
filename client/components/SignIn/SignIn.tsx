@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Mutation, MutationFn } from 'react-apollo';
 
-import { CURRENT_USER_QUERY } from '../Account/Account';
+import { CURRENT_USER_QUERY } from '../queries';
 import Error from '../Error';
 
 const SIGN_IN_MUTATION = gql`
@@ -36,9 +36,9 @@ function SignIn() {
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
       {(signIn: MutationFn, { loading, error }) => (
-        <div className="form-card">
+        <div className="form-card account-form-card">
           {error && <Error error={error} />}
-          <h3>Sign in!</h3>
+          <h3 className="account-form-heading">Sign in!</h3>
           <form
             method="post"
             onSubmit={e => handleFormSubmit(e, signIn)}
@@ -67,7 +67,11 @@ function SignIn() {
                   onChange={e => setPassword(e.target.value)}
                 />
               </label>
-              <button type="submit">Sign in!</button>
+              <div className="account-form-buttons">
+                <button className="button button-primary" type="submit">
+                  Sign in!
+                </button>
+              </div>
             </fieldset>
           </form>
         </div>

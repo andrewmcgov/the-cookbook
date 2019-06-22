@@ -1,0 +1,13 @@
+.account-form-card {
+  @include card-styles;
+  padding: 0 1.5rem 2rem 1.5rem;
+
+  .account-form-buttons {
+    text-align: right;
+    margin-top: 2rem;
+  }
+
+  .account-form-heading {
+    margin-top: 2rem;
+  }
+}
