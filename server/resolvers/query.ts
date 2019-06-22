@@ -4,7 +4,6 @@ import * as jwt from 'jsonwebtoken';
 
 import { UserType, RecipeType } from '../graphql-types';
 import { IUser, IRecipe } from '../types';
-import { resolve } from 'dns';
 
 const User = mongoose.model('User');
 const Recipe = mongoose.model('Recipe');

@@ -2,7 +2,8 @@ export interface IUser extends Document {
   email: string;
   firstName: string;
   lastName: string;
-  password: string;
+  password?: string;
+  _id?: string;
 }
 
 export interface IIngredient {

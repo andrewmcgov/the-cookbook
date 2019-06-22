@@ -14,6 +14,7 @@ $secondary-color: $yellow;
 $accent-color: $yellow;
 $primary-accent: $teal;
 $primary-body: $dark-grey;
+$body-background: #f7f7ff;
 
 // Breakpoints
 $mobile: 500px;
@@ -40,4 +41,15 @@ $desktop: 801px;
       @content;
     }
   }
+}
+
+@mixin shadow-styles {
+  box-shadow: 1px 1px 3px rgba($light-grey, 0.3);
+}
+
+@mixin card-styles {
+  background: $white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba($light-grey, 0.3);
+  overflow: hidden;
 }

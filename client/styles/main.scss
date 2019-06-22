@@ -1,5 +1,6 @@
 @import 'normalize';
 @import 'variables';
+@import 'general';
 @import 'typography';
 @import 'forms';
 @import 'buttons';
@@ -11,13 +12,4 @@
 @import 'components/Page';
 @import 'components/RecipeCard';
 @import 'components/RecipeForm';
-
-* {
-  box-sizing: border-box;
-}
-
-// Remove router link
-// ******************************************
-.link--no-underline {
-  text-decoration: none;
-}
+@import 'components/RecipePage';

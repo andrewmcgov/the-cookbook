@@ -67,7 +67,6 @@ function EditRecipe({ match }: RouteComponentProps<Params>) {
 
         return (
           <Page title={`Edit ${recipe.title}`}>
-            <Link to={`/recipes/${recipe.slug}`}>Cancel</Link>
             <Mutation mutation={EDIT_RECIPE_MUTATION}>
               {(createRecipe: MutationFn, { loading, error, data }) => {
                 if (error) return <Error error={error} />;

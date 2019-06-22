@@ -35,13 +35,19 @@ const MobileNav = (props: Props) => {
       </div>
       <ul className="mobile-nav">
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link to="/">Home</Link>
+          <Link className="link--no-underline" to="/">
+            Home
+          </Link>
         </li>
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link to="/account">Account</Link>
+          <Link className="link--no-underline" to="/account">
+            Account
+          </Link>
         </li>
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link to="/recipes/new">New Recipe</Link>
+          <Link className="link--no-underline" to="/recipes/new">
+            New Recipe
+          </Link>
         </li>
       </ul>
     </div>

@@ -6,16 +6,7 @@ import Page from '../Page';
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
 import SignOut from '../SignOut';
-
-export const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY {
-    currentUser {
-      email
-      firstName
-      lastName
-    }
-  }
-`;
+import { CURRENT_USER_QUERY } from '../queries';
 
 interface Data {
   currentUser: {
@@ -75,12 +66,12 @@ function Account() {
           }
 
           return (
-            <>
+            <div className="account__info">
               <p>
-                Logged in as {user.firstName} {user.lastName}
+                You are logged in as {user.firstName} {user.lastName}
               </p>
               <SignOut />
-            </>
+            </div>
           );
         }}
       </Query>

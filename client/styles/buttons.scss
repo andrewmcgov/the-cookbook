@@ -4,7 +4,21 @@ button {
 }
 
 .button {
+  padding: 1.5rem 2rem;
+  font-size: 1.75rem;
+}
+
+.button-primary {
+  background-color: $primary-color;
   color: $white;
-  background: $salmon;
-  padding: 0.5em;
+}
+
+.button-secondary {
+  border: 2px solid $primary-color;
+  color: $primary-color;
+}
+
+.button-right-wrapper {
+  display: flex;
+  justify-content: flex-end;
 }

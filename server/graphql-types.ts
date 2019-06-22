@@ -20,7 +20,8 @@ export const UserType = new GraphQLObjectType({
   fields: {
     email: { type: GraphQLString },
     firstName: { type: GraphQLString },
-    lastName: { type: GraphQLString }
+    lastName: { type: GraphQLString },
+    _id: { type: GraphQLString }
   }
 });
 

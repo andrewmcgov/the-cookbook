@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+// Remove router link
+// ******************************************
+.link--no-underline {
+  text-decoration: none;
+}
+
+body {
+  background: $body-background;
+}

@@ -3,10 +3,10 @@
 .page-wrapper {
   width: 100%;
   max-width: 1000px;
-  margin: 5rem auto 0 auto;
+  margin: 8rem auto 0 auto;
   padding: 1em;
   @include break-point(mobile) {
-    margin: 4rem auto 0 auto;
+    margin: 5rem auto 0 auto;
   }
 }
 

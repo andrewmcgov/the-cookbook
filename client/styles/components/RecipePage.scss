@@ -1,11 +1,26 @@
 // Recipe Page Component
 // ******************************************
-.recipe__image {
-  display: block;
-  width: 50%;
-  margin: 1em auto;
-  max-width: 100%;
-  @include break-point(mobile) {
+.recipe__content {
+  @include card-styles;
+
+  .recipe__image {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    height: 400px;
+    object-fit: cover;
+
+    @include break-point(mobile) {
+      width: 100%;
+    }
   }
+
+  .recipe__info {
+    margin: 2.5rem 1.5rem;
+  }
+}
+
+.edit-recipe-button {
+  margin: 4rem 0;
+  text-align: right;
 }
