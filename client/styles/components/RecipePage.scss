@@ -2,6 +2,7 @@
 // ******************************************
 .recipe__content {
   @include card-styles;
+  margin-bottom: 3rem;
 
   .recipe__image {
     display: block;
@@ -12,6 +13,7 @@
 
     @include break-point(mobile) {
       width: 100%;
+      height: 200px;
     }
   }
 

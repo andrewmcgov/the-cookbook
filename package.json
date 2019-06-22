@@ -4,6 +4,7 @@
   "description": "An app to store and search recepies",
   "main": "index.js",
   "scripts": {
+    "start": "tsc && yarn client:build && NODE_ENV=PRODUCTION node server_build/server/server.js",
     "setup": "tsc",
     "server:dev": "concurrently \"tsc -w\" \"nodemon server_build/server/server.js --ignore client/ --ignore dist/ --ignore .cache/\"",
     "client:dev": "parcel client/app.html",
