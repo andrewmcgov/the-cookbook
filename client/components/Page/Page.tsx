@@ -9,7 +9,7 @@ const Page = ({ title, children }: Props) => (
   <div className="page-wrapper">
     {title && (
       <div className="page-header">
-        <h3 className="page-header__title">{title}</h3>
+        <h1>{title}</h1>
       </div>
     )}
     <main>{children}</main>

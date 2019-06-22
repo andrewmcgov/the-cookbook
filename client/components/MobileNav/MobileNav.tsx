@@ -1,6 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FiX } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
 import { Link } from 'react-router-dom';
 
 type Props = {
@@ -19,22 +21,33 @@ const MobileNav = (props: Props) => {
           className="mobile-nav__close-button"
           onClick={() => closeFn(false)}
         >
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             icon={faTimes}
             size={'lg'}
             className="mobile-nav_close-icon"
-          />
+          /> */}
+          <IconContext.Provider
+            value={{ size: '30', className: 'mobile-nav_close-icon' }}
+          >
+            <FiX />
+          </IconContext.Provider>
         </button>
       </div>
       <ul className="mobile-nav">
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link to="/">Home</Link>
+          <Link className="link--no-underline" to="/">
+            Home
+          </Link>
         </li>
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link to="/account">Account</Link>
+          <Link className="link--no-underline" to="/account">
+            Account
+          </Link>
         </li>
         <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link to="/recipes/new">New Recipe</Link>
+          <Link className="link--no-underline" to="/recipes/new">
+            New Recipe
+          </Link>
         </li>
       </ul>
     </div>

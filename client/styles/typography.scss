@@ -2,10 +2,77 @@ h1,
 h2,
 h3,
 h4,
-h5,
+h5 {
+  color: $primary-body;
+  font-family: 'Lora', serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 4.5rem;
+  @include break-point(mobile) {
+    font-size: 3.5rem;
+  }
+}
+
+h2 {
+  font-size: 3.85rem;
+  @include break-point(mobile) {
+    font-size: 3.25rem;
+  }
+}
+
+h3 {
+  font-size: 3.5rem;
+  @include break-point(mobile) {
+    font-size: 3rem;
+  }
+}
+
+h4 {
+  font-size: 3rem;
+  @include break-point(mobile) {
+    font-size: 2.75rem;
+  }
+}
+
+h5 {
+  font-size: 2.8rem;
+  @include break-point(mobile) {
+    font-size: 2.5rem;
+  }
+}
+
+.recipe-card__title {
+  font-size: 3rem;
+}
+
 p,
 span,
 ul,
+li,
+label {
+  color: $primary-body;
+  font-family: 'Open Sans', sans-serif;
+}
+
+p {
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+}
+
+span {
+  font-size: 1.6rem;
+}
+
 li {
-  color: $primary-color;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+}
+
+hr.divider {
+  border: 0;
+  height: 1px;
+  background: $light-grey;
+  margin: 2rem 0;
 }

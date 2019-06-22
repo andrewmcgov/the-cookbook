@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import JSONPretty from 'react-json-pretty';
+import React from 'react';
 import { MutationFn } from 'react-apollo';
+import { IconContext } from 'react-icons';
+import { FiTrash2 } from 'react-icons/fi';
 
 import ImageDropzone from './components/ImageDropzone';
 import { IRecipe } from '../types';
+import { Link } from 'react-router-dom';
 
 interface Ingredient {
   amount: string;
@@ -278,7 +280,7 @@ function RecipeForm(props: Props) {
     });
   }
 
-  function handleInstructionChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInstructionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     e.preventDefault();
     const instructionIndex = parseInt(
       e.currentTarget.getAttribute('data-index')
@@ -362,104 +364,138 @@ function RecipeForm(props: Props) {
   }
 
   return (
-    <form action="" className="recipe-form" onSubmit={handleSubmit}>
-      <fieldset disabled={props.loading || formSubmitting}>
-        <label htmlFor="title">
-          Title
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            onChange={handleChange}
-            required
+    <>
+      <form action="" className="recipe-form" onSubmit={handleSubmit}>
+        <fieldset disabled={props.loading || formSubmitting}>
+          <label htmlFor="title">
+            Title
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={title}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label htmlFor="description">
+            Description
+            <textarea
+              id="description"
+              name="description"
+              value={description}
+              onChange={handleChange}
+              required
+              rows={4}
+            />
+          </label>
+          <h3>Image</h3>
+          <ImageDropzone
+            updateImage={updateImageFile}
+            currentImage={image.medium}
           />
-        </label>
-        <label htmlFor="description">
-          Description
-          <textarea
-            id="description"
-            name="description"
-            value={description}
-            onChange={handleChange}
-            required
-            rows={4}
-          />
-        </label>
-        <h3>Image</h3>
-        <ImageDropzone
-          updateImage={updateImageFile}
-          currentImage={image.medium}
-        />
-        <h3>Ingredients</h3>
-        {ingredients.length > 0 &&
-          ingredients.map((ingredient, index) => (
-            <div className="ingredient-row" key={index}>
-              <label htmlFor={`ingredient-amount-${index}`}>
-                Amount {index + 1}
-                <input
-                  type="text"
-                  id={`ingredient-amount-${index}`}
-                  name={`ingredient-amount-${index}`}
-                  onChange={handleIngredientChange}
-                  value={ingredient.amount}
-                  data-index={index}
-                  data-name="amount"
-                  required
-                />
-              </label>
-              <label htmlFor={`ingredient-amount-${index}`}>
-                Ingredient Name {index + 1}
-                <input
-                  type="text"
-                  id={`ingredient-amount-${index}`}
-                  name={`ingredient-amount-${index}`}
-                  onChange={handleIngredientChange}
-                  value={ingredient.name}
-                  data-index={index}
-                  data-name="name"
-                  required
-                />
-              </label>
-              <div className="ingredient-row__remove-button">
-                <button onClick={removeIngredient} data-index={index}>
-                  Remove Ingredient
-                </button>
-              </div>
-            </div>
-          ))}
-        <button onClick={addIngredient}>Add Ingredient</button>
-        <h3>Instructions</h3>
-        {instructions.length > 0 &&
-          instructions.map((instruction, index) => (
-            <div className="instruction-row" key={index}>
-              <label htmlFor={`instruction-${index}`}>
-                Instruction {index + 1}
-                <input
-                  type="text"
-                  id={`instruction-${index}`}
-                  name={`instruction-${index}`}
-                  onChange={handleInstructionChange}
-                  value={instruction}
-                  data-index={index}
-                  required
-                />
-              </label>
-              <div className="instruction-row__remove-button">
-                <button onClick={removeInstruction} data-index={index}>
-                  Remove Instruction
-                </button>
-              </div>
-            </div>
-          ))}
-        <button onClick={addInstruction}>Add Instruction</button>
-        <div className="recipe-form__submit">
-          <button type="submit">
-            {formSubmitting || props.loading ? 'Saving...' : 'Save Recipe!'}
-          </button>
-        </div>
-      </fieldset>
-    </form>
+          <h3>Ingredients</h3>
+          {ingredients.length > 0 &&
+            ingredients.map((ingredient, index) => (
+              <>
+                <div className="ingredient-row" key={index}>
+                  <label
+                    className="ingrediant-row__amount"
+                    htmlFor={`ingredient-amount-${index}`}
+                  >
+                    Amount {index + 1}
+                    <input
+                      type="text"
+                      id={`ingredient-amount-${index}`}
+                      name={`ingredient-amount-${index}`}
+                      onChange={handleIngredientChange}
+                      value={ingredient.amount}
+                      data-index={index}
+                      data-name="amount"
+                      required
+                    />
+                  </label>
+                  <label
+                    htmlFor={`ingredient-name-${index}`}
+                    className="ingrediant-row__name"
+                  >
+                    Ingredient Name {index + 1}
+                    <input
+                      type="text"
+                      id={`ingredient-name-${index}`}
+                      name={`ingredient-name-${index}`}
+                      onChange={handleIngredientChange}
+                      value={ingredient.name}
+                      data-index={index}
+                      data-name="name"
+                      required
+                    />
+                  </label>
+                  <div className="ingredient-row__remove-button">
+                    <button onClick={removeIngredient} data-index={index}>
+                      <IconContext.Provider value={{ size: '2rem' }}>
+                        <FiTrash2 />
+                      </IconContext.Provider>
+                    </button>
+                  </div>
+                </div>
+                <hr className="divider" />
+              </>
+            ))}
+          <div className="button-right-wrapper">
+            <button className="button button-secondary" onClick={addIngredient}>
+              Add Ingredient
+            </button>
+          </div>
+          <h3>Instructions</h3>
+          {instructions.length > 0 &&
+            instructions.map((instruction, index) => (
+              <>
+                <div className="instruction-row" key={index}>
+                  <label htmlFor={`instruction-${index}`}>
+                    Instruction {index + 1}
+                    <textarea
+                      id={`instruction-${index}`}
+                      name={`instruction-${index}`}
+                      onChange={handleInstructionChange}
+                      value={instruction}
+                      data-index={index}
+                      required
+                      rows={3}
+                    />
+                  </label>
+                  <div className="instruction-row__remove-button">
+                    <button onClick={removeInstruction} data-index={index}>
+                      <IconContext.Provider value={{ size: '2rem' }}>
+                        <FiTrash2 />
+                      </IconContext.Provider>
+                    </button>
+                  </div>
+                </div>
+                <hr className="divider" />
+              </>
+            ))}
+          <div className="button-right-wrapper">
+            <button
+              className="button button-secondary"
+              onClick={addInstruction}
+            >
+              Add Instruction
+            </button>
+          </div>
+        </fieldset>
+      </form>
+      <div className="recipe-form__buttons button-right-wrapper">
+        {slug && (
+          <Link to={`/recipes/${slug}`} className="button button-secondary">
+            Cancel
+          </Link>
+        )}
+        <button className="button button-primary" type="submit">
+          {formSubmitting || props.loading ? 'Saving...' : 'Save Recipe!'}
+        </button>
+      </div>
+    </>
   );
 }
 

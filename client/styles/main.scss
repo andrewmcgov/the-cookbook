@@ -1,95 +1,16 @@
-* {
-  box-sizing: border-box;
-}
-
 @import 'normalize';
 @import 'variables';
+@import 'general';
 @import 'typography';
-@import 'Header';
-@import 'Nav';
 @import 'forms';
 @import 'buttons';
-@import 'Page';
 
-// Page styles
-// ******************************************
-.page-wrapper {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1em;
-}
-
-.page-header {
-  margin: 1em 0;
-}
-
-.page-header__title {
-  font-size: 2em;
-}
-
-// Account Page
-// ******************************************
-
-// Error Component
-// ******************************************
-.error-message-container {
-  width: 100%;
-  padding: 0.15em;
-  margin: 1.5em 0;
-  border-left: 3px solid $red;
-  background: rgba($red, 0.2);
-  p {
-    font-size: 1.1em;
-    padding-left: 1em;
-    color: #000;
-  }
-}
-
-// Recipe Page Component
-// ******************************************
-.recipe__image {
-  display: block;
-  width: 50%;
-  margin: 1em auto;
-  max-width: 100%;
-  @include break-point(mobile) {
-    width: 100%;
-  }
-}
-
-// Recipe Card Component
-// ******************************************
-
-.recipe-card {
-  display: flex;
-}
-
-.recipe-card__link {
-  text-decoration: none;
-}
-
-.recipe-card__image-wrapper {
-  width: 50%;
-  margin-right: 15px;
-  @include break-point(mobile) {
-    width: 100%;
-    margin-right: 0;
-  }
-}
-
-.recipe-card__image {
-  max-width: 100%;
-}
-
-.recipe-card__info {
-  width: 50%;
-  a {
-    text-decoration: none;
-  }
-}
-
-.recipe-card__title {
-  text-decoration: none;
-  font-size: 2rem;
-}
+@import 'components/Header';
+@import 'components/Nav';
+@import 'components/RecipeForm';
+@import 'components/Error';
+@import 'components/Page';
+@import 'components/RecipeCard';
+@import 'components/RecipeForm';
+@import 'components/RecipePage';
+@import 'components/Account';

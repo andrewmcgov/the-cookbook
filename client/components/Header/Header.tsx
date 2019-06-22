@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FiMenu } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
 
 import Nav from '../Nav';
 import MobileNav from '../MobileNav';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   return (
     <>
       <header className="header">
-        <h1 className="header__title">The Cookbook 👨🏻‍🍳👩🏻‍🍳</h1>
+        <Link className="link--no-underline" to="/">
+          <h1 className="header__title">The Cookbook 👨🏻‍🍳👩🏻‍🍳</h1>
+        </Link>
         <Nav />
         <button
           className="mobile-nav__trigger"
           onClick={() => setMobileNavOpen(true)}
         >
-          <FontAwesomeIcon icon={faBars} size={'lg'} />
+          <IconContext.Provider value={{ size: '30' }}>
+            <FiMenu />
+          </IconContext.Provider>
         </button>
       </header>
       <MobileNav isOpen={mobileNavOpen} closeFn={setMobileNavOpen} />

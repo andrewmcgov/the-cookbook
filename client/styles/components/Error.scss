@@ -1,0 +1,14 @@
+// Error Component
+// ******************************************
+.error-message-container {
+  width: 100%;
+  padding: 0.15em;
+  margin: 1.5em 0;
+  border-left: 3px solid $red;
+  background: rgba($red, 0.2);
+  p {
+    font-size: 1.1em;
+    padding-left: 1em;
+    color: #000;
+  }
+}

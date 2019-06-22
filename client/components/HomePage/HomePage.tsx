@@ -46,9 +46,13 @@ function HomePage() {
 
           const recipes: IRecipe[] = data.getRecipes;
 
-          return recipes.map(recipe => (
-            <RecipeCard key={recipe.slug} recipe={recipe} />
-          ));
+          return (
+            <div className="recipe-card-loop">
+              {recipes.map(recipe => (
+                <RecipeCard key={recipe.slug} recipe={recipe} />
+              ))}
+            </div>
+          );
         }}
       </Query>
     </Page>

@@ -1,5 +1,16 @@
 import gql from 'graphql-tag';
 
+export const CURRENT_USER_QUERY = gql`
+  query CURRENT_USER_QUERY {
+    currentUser {
+      email
+      firstName
+      lastName
+      _id
+    }
+  }
+`;
+
 export const GET_RECIPE = gql`
   query GET_RECIPE($slug: String) {
     getRecipe(slug: $slug) {
@@ -17,6 +28,7 @@ export const GET_RECIPE = gql`
       }
       author {
         name
+        _id
       }
       createdAt
       updatedAt
