@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
 interface Token {
-  _id: ObjectID;
+  _id: mongoose.Types.ObjectId;
 }
 
 import {
@@ -16,9 +16,7 @@ import {
   ImageInput
 } from '../graphql-types';
 
-import { IUser, IRecipe } from '../types';
-import { resolve } from 'url';
-import { ObjectID } from 'bson';
+import { IUser, IRecipe, ICreateUser } from '../types';
 
 const User = mongoose.model('User');
 const Recipe = mongoose.model('Recipe');
@@ -41,13 +39,26 @@ const mutation = new GraphQLObjectType({
         firstName: { type: GraphQLString },
         lastName: { type: GraphQLString },
         password: { type: GraphQLString },
-        repeatPassword: { type: GraphQLString }
+        repeatPassword: { type: GraphQLString },
+        signupKey: { type: GraphQLString }
       },
       async resolve(
         _,
-        { email, firstName, lastName, password, repeatPassword },
+        {
+          email,
+          firstName,
+          lastName,
+          password,
+          repeatPassword,
+          signupKey
+        }: ICreateUser,
         ctx
       ) {
+        // Check if they are eligible for an account
+        if (signupKey !== process.env.SIGNUP_KEY) {
+          throw new Error('You do not have a valid Signup Key!');
+        }
+
         // Throw an error if the passwords do not match
         if (password !== repeatPassword) {
           throw new Error('Passwords do not match!');

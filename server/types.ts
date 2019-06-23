@@ -7,6 +7,15 @@ export interface IUser extends Document {
   password: string;
 }
 
+export interface ICreateUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  repeatPassword: string;
+  signupKey: string;
+}
+
 export interface IIngredient {
   amount: string;
   name: string;
