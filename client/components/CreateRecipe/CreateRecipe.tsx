@@ -3,9 +3,11 @@ import { Mutation, MutationFn } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 
+import { UserContext } from '../user-context';
 import Page from '../Page';
 import RecipeForm from '../RecipeForm';
 import Error from '../Error';
+import AccountForms from '../AccountForms';
 
 const CREATE_RECIPE_MUTATION = gql`
   mutation CREATE_RECIPE_MUTATION(
@@ -42,6 +44,17 @@ const CREATE_RECIPE_MUTATION = gql`
 `;
 
 function CreateRecipe() {
+  const currentUser = React.useContext(UserContext);
+
+  if (!currentUser.firstName) {
+    return (
+      <Page title="Add new Recipe!">
+        <p>Please sign in to add a new recipe.</p>
+        <AccountForms />
+      </Page>
+    );
+  }
+
   return (
     <Page title="Add new Recipe!">
       <Mutation mutation={CREATE_RECIPE_MUTATION}>

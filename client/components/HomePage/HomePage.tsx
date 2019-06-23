@@ -38,7 +38,7 @@ function HomePage() {
       <Query query={GET_RECIPES_QUERY}>
         {({ data, loading, error }) => {
           if (loading) {
-            return <h2>Loading...</h2>;
+            return null;
           }
           if (error) {
             return <Error error={error} />;
