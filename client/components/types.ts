@@ -26,3 +26,7 @@ export interface IRecipe {
   updatedAt: string;
   slug: string;
 }
+
+export interface ICurrentUserQuery {
+  currentUser?: IUser;
+}

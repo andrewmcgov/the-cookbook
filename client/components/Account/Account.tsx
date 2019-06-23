@@ -1,80 +1,25 @@
-import React, { useState } from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import React from 'react';
 
 import Page from '../Page';
-import SignIn from '../SignIn';
-import SignUp from '../SignUp';
+import AccountForms from '../AccountForms';
 import SignOut from '../SignOut';
-import { CURRENT_USER_QUERY } from '../queries';
-
-interface Data {
-  currentUser: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
-}
+import { UserContext } from '../user-context';
 
 function Account() {
-  const [signUp, setSignUp] = useState(false);
+  const currentUser = React.useContext(UserContext);
 
-  function handleFormChange(
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) {
-    e.preventDefault();
-    setSignUp(signUp => !signUp);
-  }
+  const AccountInfoMarkup = (
+    <div className="account__info">
+      <p>
+        You are logged in as {currentUser.firstName} {currentUser.lastName}
+      </p>
+      <SignOut />
+    </div>
+  );
 
   return (
     <Page title="Account">
-      <Query<Data> query={CURRENT_USER_QUERY}>
-        {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <p>Oops! Issue loading current user.</p>;
-
-          const { currentUser: user } = data;
-
-          if (!user) {
-            return (
-              <>
-                {signUp ? (
-                  <>
-                    <SignUp />
-                    <p>
-                      Already have an account? Click{' '}
-                      <a href="" onClick={e => handleFormChange(e)}>
-                        here
-                      </a>{' '}
-                      to sign in!
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <SignIn />
-                    <p>
-                      Need an account? Click{' '}
-                      <a href="" onClick={e => handleFormChange(e)}>
-                        here
-                      </a>{' '}
-                      to sign up!
-                    </p>
-                  </>
-                )}
-              </>
-            );
-          }
-
-          return (
-            <div className="account__info">
-              <p>
-                You are logged in as {user.firstName} {user.lastName}
-              </p>
-              <SignOut />
-            </div>
-          );
-        }}
-      </Query>
+      {currentUser.firstName ? AccountInfoMarkup : <AccountForms />}
     </Page>
   );
 }
