@@ -325,7 +325,9 @@ function RecipeForm(props: Props) {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
+  ) {
     e.preventDefault();
     dispatch({
       type: 'SET_FORM_SUBMITTING',
@@ -397,8 +399,8 @@ function RecipeForm(props: Props) {
           <h3>Ingredients</h3>
           {ingredients.length > 0 &&
             ingredients.map((ingredient, index) => (
-              <>
-                <div className="ingredient-row" key={index}>
+              <div key={index}>
+                <div className="ingredient-row">
                   <label
                     className="ingrediant-row__amount"
                     htmlFor={`ingredient-amount-${index}`}
@@ -440,7 +442,7 @@ function RecipeForm(props: Props) {
                   </div>
                 </div>
                 <hr className="divider" />
-              </>
+              </div>
             ))}
           <div className="button-right-wrapper">
             <button className="button button-secondary" onClick={addIngredient}>
@@ -450,7 +452,7 @@ function RecipeForm(props: Props) {
           <h3>Instructions</h3>
           {instructions.length > 0 &&
             instructions.map((instruction, index) => (
-              <>
+              <div key={index}>
                 <div className="instruction-row" key={index}>
                   <label htmlFor={`instruction-${index}`}>
                     Instruction {index + 1}
@@ -473,7 +475,7 @@ function RecipeForm(props: Props) {
                   </div>
                 </div>
                 <hr className="divider" />
-              </>
+              </div>
             ))}
           <div className="button-right-wrapper">
             <button
@@ -487,11 +489,18 @@ function RecipeForm(props: Props) {
       </form>
       <div className="recipe-form__buttons button-right-wrapper">
         {slug && (
-          <Link to={`/recipes/${slug}`} className="button button-secondary">
+          <Link
+            to={`/recipes/${slug}`}
+            className="button button-secondary link--no-underline"
+          >
             Cancel
           </Link>
         )}
-        <button className="button button-primary" type="submit">
+        <button
+          onClick={handleSubmit}
+          className="button button-primary"
+          type="submit"
+        >
           {formSubmitting || props.loading ? 'Saving...' : 'Save Recipe!'}
         </button>
       </div>

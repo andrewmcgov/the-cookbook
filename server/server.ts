@@ -40,6 +40,13 @@ const db = mongoose.connection;
 db.on('error', () => console.log('error connecting to db: '));
 db.once('open', () => console.log('Connected to database!'));
 
+// app.use(async (ctx, next) => {
+//   if (ctx.req.url == '/graphql') {
+//     console.log();
+//   }
+//   await next();
+// });
+
 // Pass all /graphql requests to through to the GraphQL server
 router.all(
   '/graphql',
