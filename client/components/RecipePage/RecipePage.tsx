@@ -101,7 +101,7 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
                 return (
                   <div className="edit-recipe-button">
                     <Link
-                      className="button button-secondary"
+                      className="button button-secondary link--no-underline"
                       to={`/recipes/${slug}/edit`}
                     >
                       Edit Recipe
