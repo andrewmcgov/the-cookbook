@@ -27,7 +27,7 @@
       "dest": "/server/server.ts"
     },
     {
-      "src": "/*",
+      "src": "/(.*)",
       "dest": "/app.html"
     }
   ]
