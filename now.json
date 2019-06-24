@@ -27,6 +27,9 @@
       "dest": "/server/server.ts"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
       "dest": "/app.html"
     }
