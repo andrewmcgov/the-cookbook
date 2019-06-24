@@ -67,7 +67,7 @@ router.post(
 // In production, serve the static react app files from the dev server
 if (isProd) {
   router.get('*', async ctx => {
-    await send(ctx, '/app.html');
+    await send(ctx, '../app.html');
   });
 }
 
