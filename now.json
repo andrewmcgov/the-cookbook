@@ -19,8 +19,16 @@
   },
   "routes": [
     {
-      "src": "/*",
+      "src": "/graphql",
       "dest": "/server/server.ts"
+    },
+    {
+      "src": "/api/images/save",
+      "dest": "/server/server.ts"
+    },
+    {
+      "src": "/*",
+      "dest": "/app.html"
     }
   ]
 }
