@@ -11,6 +11,10 @@
     }
   ],
   "env": {
-    "NODE_ENV": "PRODUCTION"
+    "NODE_ENV": "PRODUCTION",
+    "MONGO_CONNECTION_STRING": "@cook-mongo-string",
+    "APP_SECRET": "@cook-app-secret",
+    "CLOUDINARY_URL": "@cook-cloudinary",
+    "SIGNUP_KEY": "@cook-signup-key"
   }
 }
