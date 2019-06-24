@@ -17,10 +17,14 @@ const Layout = () => (
   <Router>
     <Header />
     <Query<ICurrentUserQuery> query={CURRENT_USER_QUERY}>
-      {({ data, loading }) => {
+      {({ data, loading, error }) => {
         if (loading) return null;
 
-        const user = data.currentUser || {};
+        let user = {};
+
+        if (error) {
+          user = data.currentUser || {};
+        }
 
         return (
           <UserContext.Provider value={user}>

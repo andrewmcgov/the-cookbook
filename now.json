@@ -16,5 +16,11 @@
     "APP_SECRET": "@cook-app-secret",
     "CLOUDINARY_URL": "@cook-cloudinary",
     "SIGNUP_KEY": "@cook-signup-key"
-  }
+  },
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/server/server.ts"
+    }
+  ]
 }
