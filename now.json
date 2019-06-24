@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "./server/server.ts",
+      "use": "@now/static-build"
+    },
+    {
+      "src": "./server/server.ts",
+      "use": "@now/node"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "PRODUCTION"
+  }
+}
