@@ -19,11 +19,10 @@ const Layout = () => (
     <Query<ICurrentUserQuery> query={CURRENT_USER_QUERY}>
       {({ data, loading, error }) => {
         if (loading) return null;
-
         let user = {};
 
-        if (error) {
-          user = data.currentUser || {};
+        if (data.currentUser) {
+          user = data.currentUser;
         }
 
         return (
