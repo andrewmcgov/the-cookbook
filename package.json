@@ -7,9 +7,11 @@
     "start": "tsc && yarn client:build && NODE_ENV=PRODUCTION node server_build/server/server.js",
     "setup": "tsc",
     "server:dev": "concurrently \"tsc -w\" \"nodemon server_build/server/server.js --ignore client/ --ignore dist/ --ignore .cache/\"",
+    "server:prod": "NODE_ENV=PRODUCTION node server_build/server/server.js",
     "client:dev": "parcel client/app.html",
     "client:build": "parcel build client/app.html",
-    "dev": "concurrently \"yarn server:dev\" \"yarn client:dev\" \"sleep 2 && open http://localhost:3000 \" --names \"server,client\" -c \"yellow,cyan\""
+    "dev": "concurrently \"yarn server:dev\" \"yarn client:dev\" \"sleep 2 && open http://localhost:3000 \" --names \"server,client\" -c \"yellow,cyan\"",
+    "now-build": "parcel build client/app.html"
   },
   "author": "Andrew McGoveran",
   "license": "MIT",

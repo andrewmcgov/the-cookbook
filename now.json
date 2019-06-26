@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build"
+    },
+    {
+      "src": "./server/server.ts",
+      "use": "@now/node-server"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "PRODUCTION",
+    "MONGO_CONNECTION_STRING": "@cook-mongo-string",
+    "APP_SECRET": "@cook-app-secret",
+    "CLOUDINARY_URL": "@cook-cloudinary",
+    "SIGNUP_KEY": "@cook-signup-key"
+  },
+  "routes": [
+    {
+      "src": "/graphql",
+      "dest": "/server/server.ts"
+    },
+    {
+      "src": "/api/images/save",
+      "dest": "/server/server.ts"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/app.html"
+    }
+  ]
+}
