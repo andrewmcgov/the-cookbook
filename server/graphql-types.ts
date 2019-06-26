@@ -67,7 +67,6 @@ export const ImageType = new GraphQLObjectType({
 export const ImageInput = new GraphQLInputObjectType({
   name: 'ImageInput',
   fields: {
-    small: { type: GraphQLString },
     medium: { type: GraphQLString },
     large: { type: GraphQLString }
   }

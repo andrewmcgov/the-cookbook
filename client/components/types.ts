@@ -9,6 +9,7 @@ export interface IUser extends Document {
 export interface IIngredient {
   amount: string;
   name: string;
+  __typename?: string;
 }
 
 export interface IRecipe {
