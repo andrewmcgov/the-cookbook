@@ -7,15 +7,6 @@ import ImageDropzone from './components/ImageDropzone';
 import { IRecipe } from '../types';
 import { Link } from 'react-router-dom';
 
-interface ImageResponse {
-  image?: {
-    small: string;
-    medium: string;
-    large: string;
-  };
-  errorMessage?: string;
-}
-
 interface Props {
   onSubmit: MutationFn;
   loading: boolean;
@@ -23,18 +14,18 @@ interface Props {
 }
 
 function RecipeForm({ recipe, onSubmit, loading }: Props) {
-  const [slug, updateSlug] = React.useState(recipe ? recipe.slug : '');
-  const [title, updateTitle] = React.useState(recipe ? recipe.title : '');
-  const [description, updateDescription] = React.useState(
+  const [slug] = React.useState(recipe ? recipe.slug : '');
+  const [title, setTitle] = React.useState(recipe ? recipe.title : '');
+  const [description, setDescription] = React.useState(
     recipe ? recipe.description : ''
   );
-  const [ingredients, updateIngredients] = React.useState(
+  const [ingredients, setIngredients] = React.useState(
     recipe ? recipe.ingredients : [{ amount: '', name: '' }]
   );
-  const [instructions, updateInstructions] = React.useState(
+  const [instructions, setInstructions] = React.useState(
     recipe ? recipe.instructions : ['']
   );
-  const [image, updateimage] = React.useState(
+  const [image, setImage] = React.useState(
     recipe
       ? recipe.image
       : {
@@ -47,7 +38,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
     e.preventDefault();
     const newIngredients = [...ingredients];
     newIngredients.push({ name: '', amount: '' });
-    updateIngredients(newIngredients);
+    setIngredients(newIngredients);
   }
 
   function removeIngredient(e: React.MouseEvent<HTMLButtonElement>) {
@@ -57,7 +48,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
     );
     const newIngredients = [...ingredients];
     newIngredients.splice(ingredientIndex, 1);
-    updateIngredients(newIngredients);
+    setIngredients(newIngredients);
   }
 
   function handleIngredientChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -67,14 +58,14 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
     const ingredientValueName = e.target.getAttribute('data-name');
     const newIngredients = [...ingredients];
     newIngredients[ingredientIndex][ingredientValueName] = e.target.value;
-    updateIngredients(newIngredients);
+    setIngredients(newIngredients);
   }
 
   function addInstruction(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const newInstructions = [...instructions];
     newInstructions.push('');
-    updateInstructions(newInstructions);
+    setInstructions(newInstructions);
   }
 
   function removeInstruction(e: React.MouseEvent<HTMLButtonElement>) {
@@ -84,7 +75,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
     );
     const newInstructions = [...instructions];
     newInstructions.splice(instructionIndex, 1);
-    updateInstructions(newInstructions);
+    setInstructions(newInstructions);
   }
 
   function handleInstructionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -94,11 +85,29 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
     );
     const newInstructions = [...instructions];
     newInstructions[instructionIndex] = e.target.value;
-    updateInstructions(newInstructions);
+    setInstructions(newInstructions);
   }
 
-  function uploadImage(imageFile: File) {
-    console.log(imageFile);
+  async function uploadImage(imageFile: File) {
+    const data = new FormData();
+    data.append('file', imageFile);
+    data.append('upload_preset', 'the-cookbook');
+    try {
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/dlmkq8soe/upload',
+        {
+          method: 'POST',
+          body: data
+        }
+      );
+      const file = await res.json();
+      setImage({
+        medium: file.eager[0].secure_url,
+        large: file.secure_url
+      });
+    } catch (err) {
+      console.error(`Error uploading image: ${err}`);
+    }
   }
 
   async function handleSubmit(
@@ -136,7 +145,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
               id="title"
               name="title"
               value={title}
-              onChange={e => updateTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               required
             />
           </label>
@@ -146,7 +155,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
               id="description"
               name="description"
               value={description}
-              onChange={e => updateDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
               required
               rows={4}
             />
