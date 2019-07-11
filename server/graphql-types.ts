@@ -75,6 +75,7 @@ export const ImageInput = new GraphQLInputObjectType({
 export const RecipeType = new GraphQLObjectType({
   name: 'Recipe',
   fields: {
+    _id: { type: GraphQLID },
     title: { type: GraphQLString },
     description: { type: GraphQLString },
     ingredients: { type: new GraphQLList(IngredientType) },

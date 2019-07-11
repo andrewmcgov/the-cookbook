@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import Page from '../Page';
 import Error from '../Error';
-import { GET_RECIPE } from '../queries';
+import { GET_RECIPE_QUERY } from '../queries';
 import { IRecipe, IIngredient } from '../types';
 import { UserContext } from '../user-context';
 
@@ -17,7 +17,7 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
     'https://images.unsplash.com/photo-1522784081430-8ac6a122cbc8?q=75&fm=jpg&w=1080&fit=max';
 
   return (
-    <Query query={GET_RECIPE} variables={{ slug: match.params.id }}>
+    <Query query={GET_RECIPE_QUERY} variables={{ slug: match.params.id }}>
       {({ data, loading, error }) => {
         if (loading) {
           return <Page title="Loading..." />;

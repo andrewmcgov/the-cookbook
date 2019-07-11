@@ -22,6 +22,7 @@ export interface IIngredient {
 }
 
 export interface IRecipe extends Document {
+  _id: Types.ObjectId;
   title: string;
   description: string;
   ingredients: IIngredient[];

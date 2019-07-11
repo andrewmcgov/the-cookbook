@@ -6,31 +6,7 @@ import RecipeCard from '../RecipeCard';
 import Error from '../Error';
 import Page from '../Page';
 import { IRecipe } from '../types';
-
-const GET_RECIPES_QUERY = gql`
-  query GET_RECIPIES {
-    getRecipes {
-      title
-      description
-      ingredients {
-        name
-        amount
-      }
-      instructions
-      image {
-        small
-        medium
-        large
-      }
-      author {
-        name
-      }
-      createdAt
-      updatedAt
-      slug
-    }
-  }
-`;
+import { GET_RECIPES_QUERY } from '../queries';
 
 function HomePage() {
   return (
