@@ -13,6 +13,7 @@ export interface IIngredient {
 }
 
 export interface IRecipe {
+  _id: string;
   title: string;
   description: string;
   ingredients: IIngredient[];
