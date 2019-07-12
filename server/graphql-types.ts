@@ -4,8 +4,8 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
-  GraphQLInt,
-  GraphQLInputObjectType
+  GraphQLInputObjectType,
+  GraphQLBoolean
 } from 'graphql';
 
 import { IRecipe, IUser, IAuthour } from './types';
@@ -113,5 +113,13 @@ export const RecipeInput = new GraphQLInputObjectType({
     createdAt: { type: GraphQLString },
     updatedAt: { type: GraphQLString },
     slug: { type: GraphQLString }
+  }
+});
+
+export const DeletedRecipe = new GraphQLObjectType({
+  name: 'DeletedRecipe',
+  fields: {
+    deleted: { type: GraphQLBoolean },
+    message: { type: GraphQLString }
   }
 });

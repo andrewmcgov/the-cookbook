@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation, Query, MutationFn } from 'react-apollo';
+import { Mutation, Query, MutationFn, MutationResult } from 'react-apollo';
 import gql from 'graphql-tag';
 import { RouteComponentProps, Redirect } from 'react-router';
 
@@ -77,7 +77,10 @@ function EditRecipe({ match }: RouteComponentProps<Params>) {
                 { query: GET_RECIPE_QUERY, variables: { slug: recipe.slug } }
               ]}
             >
-              {(editRecipe: MutationFn, { loading, error, data }) => {
+              {(
+                editRecipe: MutationFn,
+                { loading, error, data }: MutationResult
+              ) => {
                 if (error) return <Error error={error} />;
                 if (data && data.editRecipe) {
                   const slug = data.editRecipe.slug;

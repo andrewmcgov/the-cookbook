@@ -8,6 +8,7 @@ import Error from '../Error';
 import { GET_RECIPE_QUERY } from '../queries';
 import { IRecipe, IIngredient } from '../types';
 import { UserContext } from '../user-context';
+import DeleteRecipe from '../DeleteRecipe/DeleteRecipe';
 
 type Params = { id: string };
 
@@ -89,6 +90,7 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
                 >
                   Edit Recipe
                 </Link>
+                <DeleteRecipe slug={slug} />
               </div>
             )}
           </Page>
