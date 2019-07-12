@@ -8,6 +8,7 @@ import Page from '../Page';
 import RecipeForm from '../RecipeForm';
 import Error from '../Error';
 import AccountForms from '../AccountForms';
+import { GET_RECIPES_QUERY } from '../queries';
 
 const CREATE_RECIPE_MUTATION = gql`
   mutation CREATE_RECIPE_MUTATION(
@@ -57,7 +58,10 @@ function CreateRecipe() {
 
   return (
     <Page title="Add new Recipe!">
-      <Mutation mutation={CREATE_RECIPE_MUTATION}>
+      <Mutation
+        mutation={CREATE_RECIPE_MUTATION}
+        refetchQueries={[{ query: GET_RECIPES_QUERY }]}
+      >
         {(createRecipe: MutationFn, { loading, error, data }) => {
           if (error) return <Error error={error} />;
 

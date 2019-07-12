@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "alias": "the-cookbook.ca",
   "builds": [
     {
       "src": "package.json",

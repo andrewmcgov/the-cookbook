@@ -13,7 +13,8 @@ import {
   RecipeInput,
   IngredientType,
   IngredientInput,
-  ImageInput
+  ImageInput,
+  DeletedRecipe
 } from '../graphql-types';
 
 import { IUser, IRecipe, ICreateUser } from '../types';
@@ -207,6 +208,36 @@ const mutation = new GraphQLObjectType({
 
         // Return the new recipe
         return updatedRecipe;
+      }
+    },
+    deleteRecipe: {
+      type: DeletedRecipe,
+      args: { slug: { type: GraphQLString } },
+      async resolve(_, { slug }, ctx) {
+        // Check that the user is logged in
+        const token = await ctx.cookies.get('token');
+
+        if (!token) {
+          throw new Error('You must be logged in to delete a recipe!');
+        }
+
+        // Get the Recipe from the database
+        const recipe = <IRecipe>await Recipe.findOne({ slug }).exec();
+
+        // Make sure this user is able to edit this recipe
+        const userId = <Token>jwt.verify(token, process.env.APP_SECRET);
+
+        if (userId._id != recipe.author) {
+          throw new Error('You can only delete your own recipes!');
+        }
+
+        // Delete the recipe from the DB
+        await Recipe.findOneAndDelete({ slug });
+
+        return {
+          deleted: true,
+          message: `Deleted recipe: ${recipe.title}`
+        };
       }
     }
   }

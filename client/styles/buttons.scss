@@ -6,6 +6,7 @@ button {
 .button {
   padding: 1.5rem 2rem;
   font-size: 1.75rem;
+  margin-left: 1rem;
 }
 
 .button-primary {
@@ -16,6 +17,12 @@ button {
 .button-secondary {
   border: 2px solid $primary-color;
   color: $primary-color;
+}
+
+.button-dangerous {
+  border: 2px solid $danger-color;
+  background-color: $danger-color;
+  color: $white;
 }
 
 .button-right-wrapper {
