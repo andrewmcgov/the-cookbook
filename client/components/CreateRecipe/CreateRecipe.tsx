@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation, MutationFn, MutationResult } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 
@@ -62,11 +62,11 @@ function CreateRecipe() {
         mutation={CREATE_RECIPE_MUTATION}
         refetchQueries={[{ query: GET_RECIPES_QUERY }]}
       >
-        {(createRecipe: MutationFn, { loading, error, data }) => {
+        {(createRecipe: MutationFn, { loading, error, data }: MutationResult) => {
           if (error) return <Error error={error} />;
 
           if (data && data.createRecipe) {
-            const slug = data.createRecipe.slug;
+            const slug = data.createRecipe.slug; 
 
             if (slug) {
               return <Redirect to={`/recipes/${slug}`} />;

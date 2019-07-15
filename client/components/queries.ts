@@ -64,3 +64,17 @@ export const GET_RECIPES_QUERY = gql`
     }
   }
 `;
+
+export const GET_RECIPES_BY_AUTHOR = gql`
+  query GET_RECIPES_BY_AUTHOR($author: String) {
+    getRecipesByAuthor(author: $author) {
+      _id
+      title
+      description
+      slug
+      image {
+        medium
+      }
+    }
+  }
+`;
