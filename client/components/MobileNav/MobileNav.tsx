@@ -1,6 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FiX } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import { Link } from 'react-router-dom';
@@ -21,11 +19,6 @@ const MobileNav = (props: Props) => {
           className="mobile-nav__close-button"
           onClick={() => closeFn(false)}
         >
-          {/* <FontAwesomeIcon
-            icon={faTimes}
-            size={'lg'}
-            className="mobile-nav_close-icon"
-          /> */}
           <IconContext.Provider
             value={{ size: '30', className: 'mobile-nav_close-icon' }}
           >

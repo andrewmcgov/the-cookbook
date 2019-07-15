@@ -1,7 +1,13 @@
 import React from 'react';
-import { Mutation, Query, MutationFn, MutationResult } from 'react-apollo';
 import gql from 'graphql-tag';
 import { RouteComponentProps, Redirect } from 'react-router';
+import {
+  Mutation,
+  Query,
+  MutationFn,
+  MutationResult,
+  QueryResult
+} from 'react-apollo';
 
 import Page from '../Page';
 import RecipeForm from '../RecipeForm';
@@ -52,10 +58,18 @@ const EDIT_RECIPE_MUTATION = gql`
 
 type Params = { id: string };
 
+interface GetRecipeQueryResult {
+  getRecipe: IRecipe;
+}
+
+interface EditRecipeMutationResult {
+  editRecipe: IRecipe;
+}
+
 function EditRecipe({ match }: RouteComponentProps<Params>) {
   return (
     <Query query={GET_RECIPE_QUERY} variables={{ slug: match.params.id }}>
-      {({ data, loading, error }) => {
+      {({ data, loading, error }: QueryResult<GetRecipeQueryResult>) => {
         if (loading) {
           return <Page title="loading..." />;
         }
@@ -79,9 +93,14 @@ function EditRecipe({ match }: RouteComponentProps<Params>) {
             >
               {(
                 editRecipe: MutationFn,
-                { loading, error, data }: MutationResult
+                {
+                  loading,
+                  error,
+                  data
+                }: MutationResult<EditRecipeMutationResult>
               ) => {
                 if (error) return <Error error={error} />;
+
                 if (data && data.editRecipe) {
                   const slug = data.editRecipe.slug;
 
@@ -89,6 +108,7 @@ function EditRecipe({ match }: RouteComponentProps<Params>) {
                     return <Redirect to={`/recipes/${slug}`} />;
                   }
                 }
+
                 return (
                   <RecipeForm
                     onSubmit={editRecipe}

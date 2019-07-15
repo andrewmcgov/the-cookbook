@@ -9,6 +9,7 @@ import RecipeForm from '../RecipeForm';
 import Error from '../Error';
 import AccountForms from '../AccountForms';
 import { GET_RECIPES_QUERY } from '../queries';
+import { IRecipe } from '../types';
 
 const CREATE_RECIPE_MUTATION = gql`
   mutation CREATE_RECIPE_MUTATION(
@@ -44,6 +45,10 @@ const CREATE_RECIPE_MUTATION = gql`
   }
 `;
 
+interface CreateRecipeMutationResult {
+  createRecipe: IRecipe;
+}
+
 function CreateRecipe() {
   const currentUser = React.useContext(UserContext);
 
@@ -62,11 +67,14 @@ function CreateRecipe() {
         mutation={CREATE_RECIPE_MUTATION}
         refetchQueries={[{ query: GET_RECIPES_QUERY }]}
       >
-        {(createRecipe: MutationFn, { loading, error, data }: MutationResult) => {
+        {(
+          createRecipe: MutationFn,
+          { loading, error, data }: MutationResult<CreateRecipeMutationResult>
+        ) => {
           if (error) return <Error error={error} />;
 
           if (data && data.createRecipe) {
-            const slug = data.createRecipe.slug; 
+            const slug = data.createRecipe.slug;
 
             if (slug) {
               return <Redirect to={`/recipes/${slug}`} />;

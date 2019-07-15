@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation, MutationFn, MutationResult } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../queries';
 import Error from '../Error';
@@ -18,7 +18,6 @@ const SIGN_IN_MUTATION = gql`
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [disabled, setDisabled] = useState(false);
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, signIn) {
     e.preventDefault();
@@ -35,7 +34,7 @@ function SignIn() {
       mutation={SIGN_IN_MUTATION}
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
-      {(signIn: MutationFn, { loading, error }) => (
+      {(signIn: MutationFn, { loading, error }: MutationResult) => (
         <div className="form-card account-form-card">
           {error && <Error error={error} />}
           <h3 className="account-form-heading">Sign in!</h3>
@@ -44,7 +43,7 @@ function SignIn() {
             onSubmit={e => handleFormSubmit(e, signIn)}
             className="signin-form"
           >
-            <fieldset disabled={loading || disabled}>
+            <fieldset disabled={loading}>
               <label htmlFor="signin:email">
                 Email
                 <input
