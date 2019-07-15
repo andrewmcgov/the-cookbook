@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { UserType, RecipeType } from '../graphql-types';
 import { IUser, IRecipe } from '../types';
+import { resolve } from 'dns';
 
 const User = mongoose.model('User');
 const Recipe = mongoose.model('Recipe');
@@ -60,6 +61,13 @@ const query = new GraphQLObjectType({
       async resolve(_, args, ctx) {
         const recipes = <IRecipe[]>await Recipe.find();
         return recipes;
+      }
+    },
+    getRecipesByAuthor: {
+      type: new GraphQLList(RecipeType),
+      args: { author: { type: GraphQLString } },
+      async resolve(_, { author }, ctx) {
+        return <IRecipe[]>await Recipe.find({ author }).exec();
       }
     }
   }
