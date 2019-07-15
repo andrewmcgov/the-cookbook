@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation, MutationFn, MutationResult } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../queries';
 
@@ -16,7 +16,7 @@ function SignOut() {
       mutation={SIGN_OUT_MUTATION}
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
-      {(signOut: MutationFn, { loading }) => (
+      {(signOut: MutationFn, { loading }: MutationResult) => (
         <button
           className="button button-secondary"
           onClick={() => signOut()}

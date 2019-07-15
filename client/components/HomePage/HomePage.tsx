@@ -1,5 +1,4 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { Query, QueryResult } from 'react-apollo';
 
 import RecipeCard from '../RecipeCard';
@@ -25,11 +24,9 @@ function HomePage() {
             return <Error error={error} />;
           }
 
-          const recipes = data.getRecipes;
-
           return (
             <div className="recipe-card-loop">
-              {recipes.map(recipe => (
+              {data.getRecipes.map(recipe => (
                 <RecipeCard key={recipe.slug} recipe={recipe} />
               ))}
             </div>

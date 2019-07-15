@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FiMenu } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 

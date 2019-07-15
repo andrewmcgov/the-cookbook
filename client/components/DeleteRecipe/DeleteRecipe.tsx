@@ -54,7 +54,7 @@ function DeleteRecipe({ slug }: Props) {
     >
       {(
         deleteRecipe: MutationFn,
-        { data, loading, error }: MutationResult<IDeletedRecipe>
+        { data, loading }: MutationResult<IDeletedRecipe>
       ) => {
         return (
           <>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import { UserContext } from '../user-context';
 import { CURRENT_USER_QUERY } from '../queries';
@@ -17,7 +16,7 @@ const Layout = () => (
   <Router>
     <Header />
     <Query<ICurrentUserQuery> query={CURRENT_USER_QUERY}>
-      {({ data, loading, error }) => {
+      {({ data, loading }) => {
         if (loading) return null;
         let user = {};
 
