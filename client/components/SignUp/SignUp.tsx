@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import gql from 'graphql-tag';
 import { Mutation, MutationFn } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../queries';
 import Error from '../Error';
 
-const SIGN_UP_MUTATION = gql`
+export const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
     $firstName: String
     $lastName: String
@@ -29,13 +29,13 @@ const SIGN_UP_MUTATION = gql`
   }
 `;
 
-function SignIn() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [signupKey, setSignupKey] = useState('');
+function SignUp() {
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [repeatPassword, setRepeatPassword] = React.useState('');
+  const [signupKey, setSignupKey] = React.useState('');
 
   function handleFormSubmit(
     e: React.FormEvent<HTMLFormElement>,
@@ -70,6 +70,7 @@ function SignIn() {
               className="signin-form"
             >
               <fieldset disabled={loading}>
+                {loading && <p>loading</p>}
                 <div className="form-input-pairing">
                   <label htmlFor="signin:firstName">
                     First name
@@ -154,4 +155,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;

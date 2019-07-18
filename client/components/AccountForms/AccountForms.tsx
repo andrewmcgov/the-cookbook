@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
@@ -19,7 +19,11 @@ function AccountForms() {
         <SignUp />
         <p>
           Already have an account? Click{' '}
-          <a href="" onClick={e => handleFormChange(e)}>
+          <a
+            className="account-forms__toggle-link"
+            href=""
+            onClick={e => handleFormChange(e)}
+          >
             here
           </a>{' '}
           to sign in!
@@ -33,7 +37,11 @@ function AccountForms() {
       <SignIn />
       <p>
         Need an account? Click{' '}
-        <a href="" onClick={e => handleFormChange(e)}>
+        <a
+          className="account-forms__toggle-link"
+          href=""
+          onClick={e => handleFormChange(e)}
+        >
           here
         </a>{' '}
         to sign up!

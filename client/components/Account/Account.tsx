@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Query, QueryResult } from 'react-apollo';
 
 import Page from '../Page';
