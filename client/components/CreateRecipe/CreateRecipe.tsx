@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Mutation, MutationFn, MutationResult } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router';

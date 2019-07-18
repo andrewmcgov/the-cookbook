@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { IRecipe } from '../types';
 import { Link } from 'react-router-dom';
 

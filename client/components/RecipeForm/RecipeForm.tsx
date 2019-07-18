@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { MutationFn } from 'react-apollo';
 import { IconContext } from 'react-icons';
 import { FiTrash2 } from 'react-icons/fi';

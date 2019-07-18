@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import gql from 'graphql-tag';
 import { Mutation, MutationFn, MutationResult } from 'react-apollo';
 
@@ -16,8 +16,8 @@ const SIGN_IN_MUTATION = gql`
 `;
 
 function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>, signIn) {
     e.preventDefault();

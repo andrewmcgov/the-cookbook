@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { FiMenu } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
@@ -7,7 +7,7 @@ import MobileNav from '../MobileNav';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
   return (
     <>
       <header className="header">

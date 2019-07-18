@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-interface IUserContext {
+export interface IUserContext {
   firstName?: string;
   lastName?: string;
   _id?: string;
