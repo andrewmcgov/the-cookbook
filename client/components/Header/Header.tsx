@@ -6,6 +6,14 @@ import Nav from '../Nav';
 import MobileNav from '../MobileNav';
 import { Link } from 'react-router-dom';
 
+import { INavItem } from '../types';
+
+const NavItems: INavItem[] = [
+  { name: 'Home', url: '/' },
+  { name: 'Account', url: '/account' },
+  { name: 'Add Recipe', url: '/recipes/new' }
+];
+
 const Header = () => {
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
   return (
@@ -14,7 +22,7 @@ const Header = () => {
         <Link className="link--no-underline" to="/">
           <h1 className="header__title">The Cookbook 👨🏻‍🍳👩🏻‍🍳</h1>
         </Link>
-        <Nav />
+        <Nav items={NavItems} />
         <button
           className="mobile-nav__trigger"
           onClick={() => setMobileNavOpen(true)}
@@ -24,7 +32,11 @@ const Header = () => {
           </IconContext.Provider>
         </button>
       </header>
-      <MobileNav isOpen={mobileNavOpen} closeFn={setMobileNavOpen} />
+      <MobileNav
+        isOpen={mobileNavOpen}
+        closeFn={setMobileNavOpen}
+        items={NavItems}
+      />
     </>
   );
 };

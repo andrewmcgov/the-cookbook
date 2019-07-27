@@ -1,20 +1,25 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { INavItem } from '../types';
 
-const Nav = () => (
-  <nav>
-    <ul className="nav">
-      <li className="nav__item">
-        <Link to="/">Home</Link>
-      </li>
-      <li className="nav__item">
-        <Link to="/account">Account</Link>
-      </li>
-      <li className="nav__item">
-        <Link to="/recipes/new">New Recipe</Link>
-      </li>
-    </ul>
-  </nav>
-);
+interface Props {
+  items: INavItem[];
+}
+
+function Nav({ items }: Props) {
+  return (
+    <nav>
+      <ul className="nav">
+        {items.map((item, index) => {
+          return (
+            <li key={index} className="nav__item">
+              <Link to={item.url}>{item.name}</Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}
 
 export default Nav;

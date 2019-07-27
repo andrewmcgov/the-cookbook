@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { mountWithRouter } from '../testingUtilities';
-import MobileNav from '../MobileNav';
+import Nav from '../Nav';
 
 import { INavItem } from '../types';
 
@@ -13,31 +13,14 @@ const NavItems: INavItem[] = [
 ];
 
 describe('<MobileNav />', () => {
-  it('calls the closeFn when the close button is clicked', () => {
-    const spy = jest.fn();
-    const wrapper = mountWithRouter(
-      <MobileNav items={NavItems} isOpen={false} closeFn={spy} />
-    );
-    const button = wrapper.find('.mobile-nav__close-button');
-
-    button.simulate('click');
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('renders a link for each item it is passed', () => {
-    const spy = jest.fn();
-    const wrapper = mountWithRouter(
-      <MobileNav items={NavItems} isOpen={false} closeFn={spy} />
-    );
+    const wrapper = mountWithRouter(<Nav items={NavItems} />);
 
     expect(wrapper.find(Link).length).toBe(NavItems.length);
   });
 
   it('uses the correct url and name in links', () => {
-    const spy = jest.fn();
-    const wrapper = mountWithRouter(
-      <MobileNav items={NavItems} isOpen={false} closeFn={spy} />
-    );
+    const wrapper = mountWithRouter(<Nav items={NavItems} />);
 
     const link = wrapper.find(Link).first();
 
