@@ -3,14 +3,15 @@ import { FiX } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import { Link } from 'react-router-dom';
 
+import { INavItem } from '../types';
+
 type Props = {
   isOpen: boolean;
   closeFn(value: boolean): void;
+  items: INavItem[];
 };
 
-const MobileNav = (props: Props) => {
-  const { isOpen, closeFn } = props;
-
+const MobileNav = ({ isOpen, closeFn, items }: Props) => {
   return (
     <div className={`mobile-nav__wrapper ${isOpen && 'mobile-nav--open'}`}>
       <div className="mobile-nav__header">
@@ -27,21 +28,19 @@ const MobileNav = (props: Props) => {
         </button>
       </div>
       <ul className="mobile-nav">
-        <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link className="link--no-underline" to="/">
-            Home
-          </Link>
-        </li>
-        <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link className="link--no-underline" to="/account">
-            Account
-          </Link>
-        </li>
-        <li onClick={() => closeFn(false)} className="mobile-nav__item">
-          <Link className="link--no-underline" to="/recipes/new">
-            New Recipe
-          </Link>
-        </li>
+        {items.map((item, index) => {
+          return (
+            <li
+              key={index}
+              onClick={() => closeFn(false)}
+              className="mobile-nav__item"
+            >
+              <Link className="link--no-underline" to={item.url}>
+                {item.name}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

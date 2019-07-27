@@ -32,3 +32,8 @@ export interface IRecipe {
 export interface ICurrentUserQuery {
   currentUser?: IUser;
 }
+
+export interface INavItem {
+  name: string;
+  url: string;
+}
