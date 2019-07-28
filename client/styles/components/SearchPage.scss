@@ -1,0 +1,19 @@
+.search-form {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-gap: 1rem;
+
+  input {
+    margin: 0;
+    height: auto;
+    font-size: 1.75rem;
+  }
+
+  button {
+    padding: 1rem 2rem;
+  }
+}
+
+.search-results-header {
+  margin: 4rem 0;
+}

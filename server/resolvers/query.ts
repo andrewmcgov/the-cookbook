@@ -69,6 +69,20 @@ const query = new GraphQLObjectType({
       async resolve(_, { author }, ctx) {
         return <IRecipe[]>await Recipe.find({ author }).exec();
       }
+    },
+    search: {
+      type: new GraphQLList(RecipeType),
+      args: { searchTerm: { type: GraphQLString } },
+      async resolve(_, { searchTerm }, ctx) {
+        const searchResults = <IRecipe[]>(
+          await Recipe.find(
+            { $text: { $search: searchTerm } },
+            { score: { $meta: 'textScore' } }
+          ).sort({ score: { $meta: 'textScore' } })
+        );
+
+        return searchResults;
+      }
     }
   }
 });
