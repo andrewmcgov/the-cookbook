@@ -10,6 +10,7 @@ import { INavItem } from '../types';
 
 const NavItems: INavItem[] = [
   { name: 'Home', url: '/' },
+  { name: 'Search', url: '/search' },
   { name: 'Account', url: '/account' },
   { name: 'Add Recipe', url: '/recipes/new' }
 ];

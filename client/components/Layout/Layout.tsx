@@ -11,6 +11,7 @@ import CreateRecipe from '../CreateRecipe';
 import EditRecipe from '../EditRecipe';
 import RecipePage from '../RecipePage';
 import HomePage from '../HomePage';
+import SearchPage from '../SearchPage';
 
 const Layout = () => (
   <Router>
@@ -32,6 +33,7 @@ const Layout = () => (
               <Route path="/recipes/new" exact component={CreateRecipe} />
               <Route path="/recipes/:id/edit" exact component={EditRecipe} />
               <Route path="/recipes/:id" exact component={RecipePage} />
+              <Route path="/search" exact component={SearchPage} />
             </Switch>
           </UserContext.Provider>
         );

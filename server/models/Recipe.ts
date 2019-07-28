@@ -51,6 +51,8 @@ const recipeSchema: Schema = new Schema({
   }
 });
 
+recipeSchema.index({ title: 'text', description: 'text', ingredients: 'text' });
+
 // Create a unique slug for the recipe
 // Shout out @wesbos again here!
 recipeSchema.pre<IRecipe>('save', async function(next) {
