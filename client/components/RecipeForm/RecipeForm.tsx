@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MutationFn } from 'react-apollo';
 import { IconContext } from 'react-icons';
-import { FiTrash2 } from 'react-icons/fi';
+import { FiTrash2, FiXSquare } from 'react-icons/fi';
 
 import ImageDropzone from './components/ImageDropzone';
 import { IRecipe } from '../types';
@@ -16,6 +16,8 @@ interface Props {
 function RecipeForm({ recipe, onSubmit, loading }: Props) {
   const [slug] = React.useState(recipe ? recipe.slug : '');
   const [title, setTitle] = React.useState(recipe ? recipe.title : '');
+  const [tags, setTags] = React.useState(recipe ? recipe.tags : []);
+  const tagsEl = React.useRef(null);
   const [description, setDescription] = React.useState(
     recipe ? recipe.description : ''
   );
@@ -119,6 +121,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
         slug,
         title,
         description,
+        tags,
         ingredients: ingredients.map(ingredient => {
           if (ingredient.__typename) {
             delete ingredient.__typename;
@@ -132,6 +135,46 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
         }
       }
     });
+  }
+
+  function handleTagsChange(e: React.KeyboardEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const newTagKeyCodes = [13, 188];
+
+    // Skip this unless we are making a new tag
+    if (!newTagKeyCodes.includes(e.keyCode)) {
+      return;
+    }
+
+    const newTag = tagsEl.current.value.replace(/[,.]/g, '').trim();
+
+    // Skip if the tag is empty
+    if (newTag === '') {
+      return;
+    }
+
+    // Skip if the tag already exists
+    if (tags.includes(newTag)) {
+      tagsEl.current.value = '';
+      return;
+    }
+
+    // Clear the tag from the input
+    tagsEl.current.value = '';
+
+    // Add the new tag
+    setTags([...tags, newTag]);
+  }
+
+  function removeTag(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number
+  ) {
+    e.preventDefault();
+    const newTags = [...tags];
+
+    newTags.splice(index, 1);
+    setTags(newTags);
   }
 
   return (
@@ -160,6 +203,32 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
               rows={4}
             />
           </label>
+          <label htmlFor="tags">
+            Tags
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              ref={tagsEl}
+              onKeyUp={handleTagsChange}
+              onSubmit={e => e.preventDefault()}
+              required
+            />
+          </label>
+          {tags.length > 0 && (
+            <div className="tags">
+              {tags.map((tag, index) => (
+                <div key={index} className="tag">
+                  <span>{tag}</span>
+                  <button type="button" onClick={e => removeTag(e, index)}>
+                    <IconContext.Provider value={{ size: '1.75rem' }}>
+                      <FiXSquare />
+                    </IconContext.Provider>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           <h3>Image</h3>
           <ImageDropzone
             onImageChange={uploadImage}
@@ -203,7 +272,11 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
                     />
                   </label>
                   <div className="ingredient-row__remove-button">
-                    <button onClick={removeIngredient} data-index={index}>
+                    <button
+                      type="button"
+                      onClick={removeIngredient}
+                      data-index={index}
+                    >
                       <IconContext.Provider value={{ size: '2rem' }}>
                         <FiTrash2 />
                       </IconContext.Provider>
@@ -214,7 +287,11 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
               </div>
             ))}
           <div className="button-right-wrapper">
-            <button className="button button-secondary" onClick={addIngredient}>
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={addIngredient}
+            >
               Add Ingredient
             </button>
           </div>
@@ -236,7 +313,11 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
                     />
                   </label>
                   <div className="instruction-row__remove-button">
-                    <button onClick={removeInstruction} data-index={index}>
+                    <button
+                      type="button"
+                      onClick={removeInstruction}
+                      data-index={index}
+                    >
                       <IconContext.Provider value={{ size: '2rem' }}>
                         <FiTrash2 />
                       </IconContext.Provider>
@@ -248,6 +329,7 @@ function RecipeForm({ recipe, onSubmit, loading }: Props) {
             ))}
           <div className="button-right-wrapper">
             <button
+              type="button"
               className="button button-secondary"
               onClick={addInstruction}
             >

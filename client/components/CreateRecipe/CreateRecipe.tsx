@@ -15,6 +15,7 @@ const CREATE_RECIPE_MUTATION = gql`
   mutation CREATE_RECIPE_MUTATION(
     $title: String
     $description: String
+    $tags: [String]
     $ingredients: [IngredientInput]
     $instructions: [String]
     $image: ImageInput
@@ -22,12 +23,14 @@ const CREATE_RECIPE_MUTATION = gql`
     createRecipe(
       title: $title
       description: $description
+      tags: $tags
       ingredients: $ingredients
       instructions: $instructions
       image: $image
     ) {
       title
       description
+      tags
       ingredients {
         amount
         name

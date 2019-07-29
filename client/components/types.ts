@@ -16,6 +16,7 @@ export interface IRecipe {
   _id: string;
   title: string;
   description: string;
+  tags: string[];
   ingredients: IIngredient[];
   instructions: string[];
   author: IUser;

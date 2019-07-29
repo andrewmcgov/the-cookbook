@@ -15,3 +15,16 @@ html {
 body {
   background: $body-background;
 }
+
+.recipe-tags {
+  display: flex;
+}
+
+.recipe-tag {
+  display: flex;
+  background-color: $accent-color;
+  color: $primary-color;
+  margin-right: 1.5rem;
+  border-radius: 3px;
+  padding: 0.75rem;
+}
