@@ -27,6 +27,7 @@ h3 {
   @include break-point(mobile) {
     font-size: 3rem;
   }
+  margin: 2rem 0;
 }
 
 h4 {

@@ -6,6 +6,11 @@ export interface IUser extends Document {
   _id?: string;
 }
 
+interface IAuthor {
+  name: string;
+  _id: string;
+}
+
 export interface IIngredient {
   amount: string;
   name: string;
@@ -19,7 +24,7 @@ export interface IRecipe {
   tags: string[];
   ingredients: IIngredient[];
   instructions: string[];
-  author: IUser;
+  author: IUser | IAuthor;
   image: {
     small: string;
     medium: string;

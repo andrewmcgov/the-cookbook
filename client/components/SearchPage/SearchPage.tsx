@@ -13,6 +13,7 @@ export const SEARCH_QUERY = gql`
       _id
       title
       description
+      tags
       slug
       image {
         medium

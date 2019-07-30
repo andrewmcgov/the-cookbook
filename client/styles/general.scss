@@ -18,6 +18,7 @@ body {
 
 .recipe-tags {
   display: flex;
+  margin-top: 1.5rem;
 }
 
 .recipe-tag {
@@ -27,4 +28,10 @@ body {
   margin-right: 1.5rem;
   border-radius: 3px;
   padding: 0.75rem;
+
+  span {
+    @include break-point(mobile) {
+      font-size: 1.3rem;
+    }
+  }
 }

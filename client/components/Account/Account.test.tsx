@@ -77,12 +77,13 @@ describe('<Account />', () => {
     // @ts-ignore
     await wait(0);
     wrapper.update();
+
     expect(wrapper.find(RecipeCard).length).toBe(recipesCount);
   });
 
   it('passes a recipe to each <RecipeCard />', async () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
-    const recipe = mocks[0].result.data.getRecipesByAuthor[0];
+    const recipe = mocks[0].result.data.getRecipesByAuthor[0]._id;
 
     // @ts-ignore
     await wait(0);
@@ -91,7 +92,7 @@ describe('<Account />', () => {
       wrapper
         .find(RecipeCard)
         .first()
-        .props().recipe
-    ).toStrictEqual(recipe);
+        .props().recipe._id
+    ).toBe(recipe);
   });
 });

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Query } from 'react-apollo';
+import { Query, QueryResult } from 'react-apollo';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
 
   return (
     <Query query={GET_RECIPE_QUERY} variables={{ slug: match.params.id }}>
-      {({ data, loading, error }) => {
+      {({ data, loading, error }: QueryResult) => {
         if (loading) {
           return <Page title="Loading..." />;
         }
@@ -35,6 +35,7 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
         const {
           title,
           description,
+          tags,
           ingredients,
           instructions,
           image,
@@ -52,6 +53,15 @@ function RecipePage({ match }: RouteComponentProps<Params>) {
               />
 
               <div className="recipe__info">
+                {tags.length > 0 && (
+                  <div className="recipe-tags">
+                    {tags.map((tag, index) => (
+                      <div key={index} className="recipe-tag">
+                        <span>{tag}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="recipe__description">
                   <p>{description}</p>
                 </div>
