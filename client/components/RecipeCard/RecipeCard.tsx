@@ -14,13 +14,11 @@ function RecipeCard({ recipe }: Props) {
   return (
     <Link className="link--no-underline" to={`/recipes/${slug}`}>
       <div className="recipe-card">
-        <div className="recipe-card__image-container">
-          <img
-            className="recipe-card__image"
-            src={image.medium || defaultImage}
-            alt=""
-          />
-        </div>
+        <img
+          className="recipe-card__image"
+          src={image.medium || defaultImage}
+          alt=""
+        />
         <div className="recipe-card__info">
           <h2 className="recipe-card__title">{title}</h2>
 
