@@ -17,6 +17,7 @@
 .recipe-card__image-container {
   flex-shrink: 2;
   min-height: 0;
+  overflow: hidden;
 }
 
 .recipe-card__image {
