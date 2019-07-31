@@ -25,6 +25,7 @@ export interface IRecipe extends Document {
   _id: Types.ObjectId;
   title: string;
   description: string;
+  tags: string[];
   ingredients: IIngredient[];
   instructions: string[];
   image: {

@@ -11,6 +11,9 @@ const recipeSchema: Schema = new Schema({
   description: {
     type: String
   },
+  tags: {
+    type: [String]
+  },
   ingredients: {
     type: [
       {

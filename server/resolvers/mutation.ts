@@ -133,13 +133,14 @@ const mutation = new GraphQLObjectType({
       args: {
         title: { type: GraphQLString },
         description: { type: GraphQLString },
+        tags: { type: new GraphQLList(GraphQLString) },
         ingredients: { type: new GraphQLList(IngredientInput) },
         instructions: { type: new GraphQLList(GraphQLString) },
         image: { type: ImageInput }
       },
       async resolve(
         _,
-        { title, description, ingredients, instructions, image },
+        { title, description, tags, ingredients, instructions, image },
         ctx
       ) {
         const token = await ctx.cookies.get('token');
@@ -152,6 +153,7 @@ const mutation = new GraphQLObjectType({
         const recipe = await new Recipe({
           title,
           description,
+          tags,
           ingredients,
           instructions,
           image,
@@ -168,13 +170,14 @@ const mutation = new GraphQLObjectType({
         slug: { type: GraphQLString },
         title: { type: GraphQLString },
         description: { type: GraphQLString },
+        tags: { type: new GraphQLList(GraphQLString) },
         ingredients: { type: new GraphQLList(IngredientInput) },
         instructions: { type: new GraphQLList(GraphQLString) },
         image: { type: ImageInput }
       },
       async resolve(
         _,
-        { slug, title, description, ingredients, instructions, image },
+        { slug, title, description, tags, ingredients, instructions, image },
         ctx
       ) {
         // Check that the user is logged in
@@ -199,6 +202,7 @@ const mutation = new GraphQLObjectType({
           {
             title,
             description,
+            tags,
             ingredients,
             instructions,
             image,

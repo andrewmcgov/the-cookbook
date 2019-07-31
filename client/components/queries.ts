@@ -17,6 +17,7 @@ export const GET_RECIPE_QUERY = gql`
       _id
       title
       description
+      tags
       ingredients {
         name
         amount
@@ -44,6 +45,7 @@ export const GET_RECIPES_QUERY = gql`
       _id
       title
       description
+      tags
       ingredients {
         name
         amount
@@ -71,6 +73,7 @@ export const GET_RECIPES_BY_AUTHOR = gql`
       _id
       title
       description
+      tags
       slug
       image {
         medium

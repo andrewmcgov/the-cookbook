@@ -20,6 +20,7 @@ const EDIT_RECIPE_MUTATION = gql`
     $slug: String
     $title: String
     $description: String
+    $tags: [String]
     $ingredients: [IngredientInput]
     $instructions: [String]
     $image: ImageInput
@@ -28,6 +29,7 @@ const EDIT_RECIPE_MUTATION = gql`
       slug: $slug
       title: $title
       description: $description
+      tags: $tags
       ingredients: $ingredients
       instructions: $instructions
       image: $image
@@ -35,6 +37,7 @@ const EDIT_RECIPE_MUTATION = gql`
       _id
       title
       description
+      tags
       ingredients {
         amount
         name

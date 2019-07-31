@@ -15,3 +15,23 @@ html {
 body {
   background: $body-background;
 }
+
+.recipe-tags {
+  display: flex;
+  margin-top: 1.5rem;
+}
+
+.recipe-tag {
+  display: flex;
+  background-color: $accent-color;
+  color: $primary-color;
+  margin-right: 1.5rem;
+  border-radius: 3px;
+  padding: 0.75rem;
+
+  span {
+    @include break-point(mobile) {
+      font-size: 1.3rem;
+    }
+  }
+}

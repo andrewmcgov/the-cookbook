@@ -2,6 +2,7 @@ export const mockRecipes = [
   {
     _id: '5cfdbd9a1a4995633686c537',
     title: 'Energy Bites',
+    tags: [],
     description:
       'These no-bake energy bites are perfect for a cottage road trip!',
     ingredients: [
@@ -62,6 +63,7 @@ export const mockRecipes = [
   {
     _id: '5cfdc3311a4995633686c548',
     title: 'Granola Clusters',
+    tags: [],
     description:
       'The clock ticks past 3:00pm. You lean back in your chair and let out a long sigh. You are hungry. Good thing you packed these hearty nutrient-filled granola clusters!',
     ingredients: [
@@ -117,6 +119,7 @@ export const mockRecipes = [
   {
     _id: '5d082d07ab9ded0d01f1d2fd',
     title: 'Protein packed yogurt snack',
+    tags: [],
     description:
       'It was leg day, and you’re hungry! \n\nYou woke up at 6am to garden, and you’re hungry!\n\nYou biked around town, and you’re hungry! \n\nDo these sentiments apply to you? If so, then toss together some tasty, protein packed yogurt stuff!',
     ingredients: [
@@ -162,6 +165,7 @@ export const mockRecipes = [
   {
     _id: '5d24a5d8774b3158a53b9c8b',
     title: 'Banana, oat, and fruit muffins',
+    tags: [],
     description:
       'Perfect for middle of the night snacks! No dairy, fat, or added sugar. Many modifications are encouraged! If modifying, try to maintain the same balance of wet versus dry ingredients. ',
     ingredients: [
@@ -233,10 +237,68 @@ export const mockRecipes = [
   }
 ];
 
+export const mockRecipe = {
+  _id: '5cfdc3311a4995633686c548',
+  title: 'Granola Clusters',
+  tags: ['Gluten Free', 'Dairy Free'],
+  description:
+    'The clock ticks past 3:00pm. You lean back in your chair and let out a long sigh. You are hungry. Good thing you packed these hearty nutrient-filled granola clusters!',
+  ingredients: [
+    {
+      name: 'Nuts, roughly chopped (almonds, pecans, walnuts, cashews, etc.)',
+      amount: '1 1/2 cups'
+    },
+    {
+      name: 'Rolled oats',
+      amount: '1 cup'
+    },
+    {
+      name: 'Flour (Almond for GF)',
+      amount: '1/2 cup'
+    },
+    {
+      name: 'Cinnamon',
+      amount: '2 teaspoons'
+    },
+    {
+      name: 'Salt',
+      amount: '1/4 teaspoon'
+    },
+    {
+      name: 'Maple syrup',
+      amount: '1/4 cup'
+    }
+  ],
+  instructions: [
+    'Preheat oven to 325°. Line a baking sheet with parchment paper.',
+    'Add all ingredients to a large bowl. Use a rubber spatula to fold until clusters form and ingredients are well mixed.',
+    'Pour mix onto baking sheet. Use spatula to create an even layer, and separate granola into small piles to create clusters. Make space in between clusters to allow for airflow.',
+    'Bake for 20 minutes. Use a heatproof spatula to flip granola, keeping clusters intact.',
+    'Bake for an additional 5-15 minutes, until edges are golden brown.',
+    'Cool on cooling rack for about 30 minutes.',
+    'Enjoy!'
+  ],
+  image: {
+    small: null,
+    medium:
+      'https://res.cloudinary.com/dlmkq8soe/image/upload/w_1024/v1560734434/cxg29jrutieqw1k1wysa.jpg',
+    large:
+      'https://res.cloudinary.com/dlmkq8soe/image/upload/w_2048/v1560734434/cxg29jrutieqw1k1wysa.jpg'
+  },
+  author: {
+    name: 'Andrew M',
+    _id: '5cdf13af41c926157ad6c6bc'
+  },
+  createdAt: '1560134449820',
+  updatedAt: '1563150704613',
+  slug: 'granola-clusters'
+};
+
 export const mockRecipesByAuthor = [
   {
     _id: '5cfdbd9a1a4995633686c537',
     title: 'Energy Bites',
+    tags: [],
     description:
       'These no-bake energy bites are perfect for a cottage road trip!',
     slug: 'energy-bites',
@@ -248,6 +310,7 @@ export const mockRecipesByAuthor = [
   {
     _id: '5cfdc3311a4995633686c548',
     title: 'Granola Clusters',
+    tags: [],
     description:
       'The clock ticks past 3:00pm. You lean back in your chair and let out a long sigh. You are hungry. Good thing you packed these hearty nutrient-filled granola clusters!',
     slug: 'granola-clusters',
@@ -259,6 +322,7 @@ export const mockRecipesByAuthor = [
   {
     _id: '5d082d07ab9ded0d01f1d2fd',
     title: 'Protein packed yogurt snack',
+    tags: [],
     description:
       'It was leg day, and you’re hungry! \n\nYou woke up at 6am to garden, and you’re hungry!\n\nYou biked around town, and you’re hungry! \n\nDo these sentiments apply to you? If so, then toss together some tasty, protein packed yogurt stuff!',
     slug: 'bfast-yogurt',
@@ -269,6 +333,7 @@ export const mockRecipesByAuthor = [
   {
     _id: '5d24a5d8774b3158a53b9c8b',
     title: 'Banana, oat, and fruit muffins',
+    tags: [],
     description:
       'Perfect for middle of the night snacks! No dairy, fat, or added sugar. Many modifications are encouraged! If modifying, try to maintain the same balance of wet versus dry ingredients. ',
     slug: 'banana-oat-fruit-muffins',
