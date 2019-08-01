@@ -17,7 +17,7 @@ function HomePage() {
       <Query query={GET_RECIPES_QUERY}>
         {({ data, loading, error }: QueryResult<RecipesResult>) => {
           if (loading) {
-            return null;
+            return <h3>Loading...</h3>;
           }
 
           if (error) {

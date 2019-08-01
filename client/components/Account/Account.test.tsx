@@ -1,7 +1,6 @@
 import * as React from 'react';
-import * as wait from 'waait';
 
-import { mountWithFullApp } from '../testingUtilities';
+import { mountWithFullApp, wait } from '../testingUtilities';
 import { GET_RECIPES_BY_AUTHOR } from '../queries';
 import { mockRecipesByAuthor } from '../mockResponses';
 import Account from '../Account';
@@ -74,7 +73,6 @@ describe('<Account />', () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
     const recipesCount = mocks[0].result.data.getRecipesByAuthor.length;
 
-    // @ts-ignore
     await wait(0);
     wrapper.update();
 
@@ -85,9 +83,9 @@ describe('<Account />', () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
     const recipe = mocks[0].result.data.getRecipesByAuthor[0]._id;
 
-    // @ts-ignore
     await wait(0);
     wrapper.update();
+
     expect(
       wrapper
         .find(RecipeCard)
