@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { MockedProvider, MockedResponse } from 'react-apollo/test-utils';
+import { MockedProvider, MockedResponse } from '@apollo/react-testing';
 
 import { UserContext, IUserContext } from './user-context';
 

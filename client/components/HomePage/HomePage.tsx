@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Query, QueryResult } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 
 import RecipeCard from '../RecipeCard';
 import Error from '../Error';
@@ -12,27 +12,23 @@ interface RecipesResult {
 }
 
 function HomePage() {
+  const { data, loading, error } = useQuery<RecipesResult>(GET_RECIPES_QUERY);
+
+  if (loading) {
+    return <h3>Loading...</h3>;
+  }
+
+  if (error) {
+    return <Error error={error} />;
+  }
+
   return (
     <Page>
-      <Query query={GET_RECIPES_QUERY}>
-        {({ data, loading, error }: QueryResult<RecipesResult>) => {
-          if (loading) {
-            return <h3>Loading...</h3>;
-          }
-
-          if (error) {
-            return <Error error={error} />;
-          }
-
-          return (
-            <div className="recipe-card-loop">
-              {data.getRecipes.map(recipe => (
-                <RecipeCard key={recipe.slug} recipe={recipe} />
-              ))}
-            </div>
-          );
-        }}
-      </Query>
+      <div className="recipe-card-loop">
+        {data.getRecipes.map(recipe => (
+          <RecipeCard key={recipe.slug} recipe={recipe} />
+        ))}
+      </div>
     </Page>
   );
 }
