@@ -1,6 +1,6 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation, MutationFn, MutationResult } from 'react-apollo';
 
 import { CURRENT_USER_QUERY } from '../queries';
 import Error from '../Error';
@@ -59,7 +59,7 @@ function SignUp() {
       mutation={SIGN_UP_MUTATION}
       refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
-      {(signUp: MutationFn, { loading, error }) => (
+      {(signUp: MutationFn, { loading, error }: MutationResult) => (
         <>
           {error && <Error error={error} />}
           <div className="form-card account-form-card">
@@ -70,7 +70,6 @@ function SignUp() {
               className="signin-form"
             >
               <fieldset disabled={loading}>
-                {loading && <p>loading</p>}
                 <div className="form-input-pairing">
                   <label htmlFor="signin:firstName">
                     First name

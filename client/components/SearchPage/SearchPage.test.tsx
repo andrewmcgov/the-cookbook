@@ -1,11 +1,10 @@
 import * as React from 'react';
-import * as wait from 'waait';
 
 import SearchPage, { SEARCH_QUERY } from './SearchPage';
 import RecipeCard from '../RecipeCard';
 import Page from '../Page';
 import Error from '../Error';
-import { mountWithFullApp } from '../testingUtilities';
+import { mountWithFullApp, wait } from '../testingUtilities';
 import { mockRecipes } from '../mockResponses';
 import { GraphQLError } from 'graphql';
 
@@ -110,7 +109,6 @@ describe('<SearchPage />', () => {
 
     form.simulate('submit');
 
-    // @ts-ignore
     await wait(0);
     wrapper.update();
 
@@ -128,7 +126,6 @@ describe('<SearchPage />', () => {
 
     form.simulate('submit');
 
-    // @ts-ignore
     await wait(0);
     wrapper.update();
 
@@ -149,7 +146,6 @@ describe('<SearchPage />', () => {
 
     form.simulate('submit');
 
-    // @ts-ignore
     await wait(0);
     wrapper.update();
 
