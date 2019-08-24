@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 
 import SearchPage, { SEARCH_QUERY } from './SearchPage';
 import RecipeCard from '../RecipeCard';
@@ -109,7 +110,9 @@ describe('<SearchPage />', () => {
 
     form.simulate('submit');
 
-    await wait(0);
+    await act(async () => {
+      await wait(0);
+    });
     wrapper.update();
 
     expect(wrapper.find(RecipeCard).length).toBe(expectedCount);
@@ -126,7 +129,9 @@ describe('<SearchPage />', () => {
 
     form.simulate('submit');
 
-    await wait(0);
+    await act(async () => {
+      await wait(0);
+    });
     wrapper.update();
 
     expect(wrapper.find(RecipeCard).exists()).toBeFalsy();
@@ -146,7 +151,9 @@ describe('<SearchPage />', () => {
 
     form.simulate('submit');
 
-    await wait(0);
+    await act(async () => {
+      await wait(0);
+    });
     wrapper.update();
 
     expect(wrapper.find(Error).exists()).toBeTruthy();

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 
 import { mountWithFullApp, wait } from '../testingUtilities';
 import { GET_RECIPES_BY_AUTHOR } from '../queries';
@@ -73,7 +74,9 @@ describe('<Account />', () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
     const recipesCount = mocks[0].result.data.getRecipesByAuthor.length;
 
-    await wait(0);
+    await act(async () => {
+      await wait(0);
+    });
     wrapper.update();
 
     expect(wrapper.find(RecipeCard).length).toBe(recipesCount);
@@ -83,7 +86,9 @@ describe('<Account />', () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
     const recipe = mocks[0].result.data.getRecipesByAuthor[0]._id;
 
-    await wait(0);
+    await act(async () => {
+      await wait(0);
+    });
     wrapper.update();
 
     expect(
