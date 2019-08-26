@@ -4,4 +4,4 @@
 
 This is a side project for learning typescript and graphql, nosted on [Now](https://zeit.co/now).
 
-Visit [the-cookbook.ca](the-cookbook.ca) to check it out!
+Visit the-cookbook.ca to check it out!
