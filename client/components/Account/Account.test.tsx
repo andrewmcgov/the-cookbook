@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
 
-import { mountWithFullApp, wait } from '../testingUtilities';
+import { mountWithFullApp, actWait, updateWrapper } from '../testingUtilities';
 import { GET_RECIPES_BY_AUTHOR } from '../queries';
 import { mockRecipesByAuthor } from '../mockResponses';
 import Account from '../Account';
@@ -45,27 +44,35 @@ describe('<Account />', () => {
     expect(wrapper.find(SignOut).exists()).toBeFalsy();
   });
 
-  it('does not render <AccountForms /> when there is user', () => {
+  it('does not render <AccountForms /> when there is user', async () => {
     const wrapper = mountWithFullApp(<Account />, user, []);
+
+    await actWait();
 
     expect(wrapper.find(AccountForms).exists()).toBeFalsy();
   });
 
-  it('does render <Signout /> when there is a user', () => {
+  it('does render <Signout /> when there is a user', async () => {
     const wrapper = mountWithFullApp(<Account />, user, []);
+
+    await actWait();
 
     expect(wrapper.find(SignOut).exists()).toBeTruthy();
   });
 
-  it('passes the users firstName and lastName to the <Page />', () => {
+  it('passes the users firstName and lastName to the <Page />', async () => {
     const wrapper = mountWithFullApp(<Account />, user, []);
     const expectedTitle = `${user.firstName} ${user.lastName}`;
+
+    await actWait();
 
     expect(wrapper.find(Page).props().title).toBe(expectedTitle);
   });
 
-  it('renders a loading state while loading the users recipes', () => {
+  it('renders a loading state while loading the users recipes', async () => {
     const wrapper = mountWithFullApp(<Account />, user, []);
+
+    await actWait();
 
     expect(wrapper.find('main p').text()).toBe('Loading...');
   });
@@ -74,10 +81,7 @@ describe('<Account />', () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
     const recipesCount = mocks[0].result.data.getRecipesByAuthor.length;
 
-    await act(async () => {
-      await wait(0);
-    });
-    wrapper.update();
+    await updateWrapper(wrapper);
 
     expect(wrapper.find(RecipeCard).length).toBe(recipesCount);
   });
@@ -86,10 +90,7 @@ describe('<Account />', () => {
     const wrapper = mountWithFullApp(<Account />, user, mocks);
     const recipe = mocks[0].result.data.getRecipesByAuthor[0]._id;
 
-    await act(async () => {
-      await wait(0);
-    });
-    wrapper.update();
+    await updateWrapper(wrapper);
 
     expect(
       wrapper
