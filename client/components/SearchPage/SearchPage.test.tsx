@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 
 import SearchPage, { SEARCH_QUERY } from './SearchPage';
 import RecipeCard from '../RecipeCard';
 import Page from '../Page';
 import Error from '../Error';
-import { mountWithFullApp, wait } from '../testingUtilities';
+import { mountWithFullApp, actWait, updateWrapper } from '../testingUtilities';
 import { mockRecipes } from '../mockResponses';
 import { GraphQLError } from 'graphql';
 
@@ -55,7 +56,6 @@ const mocksWithError = [
 describe('<SearchPage />', () => {
   it('renders a form with a search input', () => {
     const wrapper = mountWithFullApp(<SearchPage />, {}, []);
-
     const form = wrapper.find('form');
 
     expect(form.find('[name="search"]').exists()).toBeTruthy();
@@ -63,14 +63,13 @@ describe('<SearchPage />', () => {
 
   it('does not render search results by default', () => {
     const wrapper = mountWithFullApp(<SearchPage />, {}, []);
-
     const resultsHeader = wrapper.find('.search-results-header');
 
     expect(resultsHeader.exists()).toBeFalsy();
     expect(wrapper.find(RecipeCard).exists()).toBeFalsy();
   });
 
-  it('updates the page title when the form is submitted', () => {
+  it('updates the page title when the form is submitted', async () => {
     const wrapper = mountWithFullApp(<SearchPage />, {}, mocksWithResults);
     const searchTerm = mocksWithResults[0].request.variables.searchTerm;
     const form = wrapper.find('form');
@@ -80,11 +79,11 @@ describe('<SearchPage />', () => {
       .simulate('change', { target: { value: searchTerm } });
 
     form.simulate('submit');
-
+    await updateWrapper(wrapper);
     expect(wrapper.find(Page).prop('title')).toContain(searchTerm);
   });
 
-  it('renders a loading state when the form is submitted', () => {
+  it('renders a loading state when the form is submitted', async () => {
     const wrapper = mountWithFullApp(<SearchPage />, {}, mocksWithResults);
     const form = wrapper.find('form');
 
@@ -93,7 +92,7 @@ describe('<SearchPage />', () => {
       .simulate('change', { target: { value: 'searchTerm' } });
 
     form.simulate('submit');
-
+    await actWait();
     expect(wrapper.find('.search-loading').text()).toContain('Searching for');
   });
 
@@ -108,9 +107,7 @@ describe('<SearchPage />', () => {
       .simulate('change', { target: { value: searchTerm } });
 
     form.simulate('submit');
-
-    await wait(0);
-    wrapper.update();
+    await updateWrapper(wrapper);
 
     expect(wrapper.find(RecipeCard).length).toBe(expectedCount);
   });
@@ -125,10 +122,7 @@ describe('<SearchPage />', () => {
       .simulate('change', { target: { value: searchTerm } });
 
     form.simulate('submit');
-
-    await wait(0);
-    wrapper.update();
-
+    await updateWrapper(wrapper);
     expect(wrapper.find(RecipeCard).exists()).toBeFalsy();
     expect(wrapper.find('.search-results--none').text()).toContain(
       'Could not find any results'
@@ -145,10 +139,7 @@ describe('<SearchPage />', () => {
       .simulate('change', { target: { value: searchTerm } });
 
     form.simulate('submit');
-
-    await wait(0);
-    wrapper.update();
-
+    await updateWrapper(wrapper);
     expect(wrapper.find(Error).exists()).toBeTruthy();
   });
 });

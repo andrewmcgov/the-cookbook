@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 
 import HomePage from '../HomePage';
 import RecipeCard from '../RecipeCard';
@@ -34,7 +35,9 @@ describe('<HomePage />', () => {
     const wrapper = mountWithFullApp(<HomePage />, {}, mocks);
     const expectedCount = mocks[0].result.data.getRecipes.length;
 
-    await wait(0);
+    await act(async () => {
+      await wait(0);
+    });
     wrapper.update();
 
     expect(wrapper.find(RecipeCard).length).toBe(expectedCount);

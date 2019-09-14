@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Query, QueryResult } from 'react-apollo';
+import { useQuery, QueryResult } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Page from '../Page';
@@ -24,6 +24,14 @@ export const SEARCH_QUERY = gql`
 
 interface ISearchResult {
   search: IRecipe[];
+}
+
+interface ISearchVariables {
+  searchTerm: string;
+}
+
+interface SearchResultsProps {
+  searchTerm: string;
 }
 
 function SearchPage() {
@@ -51,50 +59,59 @@ function SearchPage() {
         </button>
       </form>
       {searchTerm != '' && (
-        <Query query={SEARCH_QUERY} variables={{ searchTerm }}>
-          {({ data, loading, error }: QueryResult<ISearchResult>) => {
-            if (error) {
-              return <Error error={error} />;
-            }
-
-            if (loading) {
-              return (
-                <p className="search-loading">
-                  Searching for <strong>{searchTerm}</strong>
-                </p>
-              );
-            }
-
-            const searchResults = data.search;
-            const count = searchResults.length;
-
-            if (count <= 0) {
-              return (
-                <p className="search-results--none">
-                  Could not find any results for <strong>{searchTerm}</strong>!
-                </p>
-              );
-            }
-
-            return (
-              <>
-                <div className="search-results-header">
-                  <p>
-                    Found {count} result{count > 1 ? 's' : ''} for{' '}
-                    <strong>{searchTerm}</strong>!
-                  </p>
-                </div>
-                <div className="recipe-card-loop">
-                  {searchResults.map(recipe => (
-                    <RecipeCard key={recipe.slug} recipe={recipe} />
-                  ))}
-                </div>
-              </>
-            );
-          }}
-        </Query>
+        <SearchResults searchTerm={searchTerm}></SearchResults>
       )}
     </Page>
+  );
+}
+
+function SearchResults({ searchTerm }: SearchResultsProps) {
+  const { data, loading, error } = useQuery<ISearchResult, ISearchVariables>(
+    SEARCH_QUERY,
+    {
+      variables: {
+        searchTerm
+      }
+    }
+  );
+
+  if (error) {
+    return <Error error={error} />;
+  }
+
+  if (loading) {
+    return (
+      <p className="search-loading">
+        Searching for <strong>{searchTerm}</strong>
+      </p>
+    );
+  }
+
+  const searchResults = data.search;
+  const count = searchResults.length;
+
+  if (count <= 0) {
+    return (
+      <p className="search-results--none">
+        Could not find any results for <strong>{searchTerm}</strong>!
+      </p>
+    );
+  }
+
+  return (
+    <>
+      <div className="search-results-header">
+        <p>
+          Found {count} result{count > 1 ? 's' : ''} for{' '}
+          <strong>{searchTerm}</strong>!
+        </p>
+      </div>
+      <div className="recipe-card-loop">
+        {searchResults.map(recipe => (
+          <RecipeCard key={recipe.slug} recipe={recipe} />
+        ))}
+      </div>
+    </>
   );
 }
 
