@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Mutation, MutationFn, MutationResult } from 'react-apollo';
+import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router';
 
@@ -8,7 +8,7 @@ import Page from '../Page';
 import RecipeForm from '../RecipeForm';
 import Error from '../Error';
 import AccountForms from '../AccountForms';
-import { GET_RECIPES_QUERY } from '../queries';
+
 import { IRecipe } from '../types';
 
 const CREATE_RECIPE_MUTATION = gql`
@@ -54,6 +54,9 @@ interface CreateRecipeMutationResult {
 
 function CreateRecipe() {
   const currentUser = React.useContext(UserContext);
+  const [createRecipe, { loading, error, data }] = useMutation<
+    CreateRecipeMutationResult
+  >(CREATE_RECIPE_MUTATION);
 
   if (!currentUser.firstName) {
     return (
@@ -64,34 +67,15 @@ function CreateRecipe() {
     );
   }
 
+  const errorMarkup = error ? <Error error={error} /> : null;
+
   return (
     <Page title="Add new Recipe!">
-      <Mutation
-        mutation={CREATE_RECIPE_MUTATION}
-        refetchQueries={[{ query: GET_RECIPES_QUERY }]}
-      >
-        {(
-          createRecipe: MutationFn,
-          { loading, error, data }: MutationResult<CreateRecipeMutationResult>
-        ) => {
-          if (error) return <Error error={error} />;
-
-          if (data && data.createRecipe) {
-            const slug = data.createRecipe.slug;
-
-            if (slug) {
-              return <Redirect to={`/recipes/${slug}`} />;
-            }
-          }
-
-          return (
-            <div>
-              {error && <Error error={error} />}
-              <RecipeForm onSubmit={createRecipe} loading={loading} />
-            </div>
-          );
-        }}
-      </Mutation>
+      {errorMarkup}
+      {data && data.createRecipe && (
+        <Redirect to={`/recipes/${data.createRecipe.slug}`} />
+      )}
+      <RecipeForm onSubmit={createRecipe} loading={loading} />
     </Page>
   );
 }
