@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { useMutation } from 'react-apollo';
+import {useMutation} from 'react-apollo';
 import gql from 'graphql-tag';
-import { Redirect } from 'react-router';
+import {Redirect} from 'react-router';
 
-import { UserContext } from '../user-context';
 import Page from '../Page';
 import RecipeForm from '../RecipeForm';
 import Error from '../Error';
-import AccountForms from '../AccountForms';
 
-import { IRecipe } from '../types';
+import {IRecipe} from '../types';
 
 const CREATE_RECIPE_MUTATION = gql`
   mutation CREATE_RECIPE_MUTATION(
@@ -53,19 +51,9 @@ interface CreateRecipeMutationResult {
 }
 
 function CreateRecipe() {
-  const currentUser = React.useContext(UserContext);
-  const [createRecipe, { loading, error, data }] = useMutation<
+  const [createRecipe, {loading, error, data}] = useMutation<
     CreateRecipeMutationResult
   >(CREATE_RECIPE_MUTATION);
-
-  if (!currentUser.firstName) {
-    return (
-      <Page title="Add new Recipe!">
-        <p>Please sign in to add a new recipe.</p>
-        <AccountForms />
-      </Page>
-    );
-  }
 
   const errorMarkup = error ? <Error error={error} /> : null;
 

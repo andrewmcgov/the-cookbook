@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { mountWithFullApp, actWait, updateWrapper } from '../testingUtilities';
-import { GET_RECIPES_BY_AUTHOR } from '../queries';
-import { mockRecipesByAuthor } from '../mockResponses';
+import {mountWithFullApp, actWait, updateWrapper} from '../testingUtilities';
+import {GET_RECIPES_BY_AUTHOR} from '../queries';
+import {mockRecipesByAuthor} from '../mockResponses';
 import Account from '../Account';
 import AccountForms from '../AccountForms';
 import SignOut from '../SignOut';
@@ -32,27 +32,7 @@ const mocks = [
 ];
 
 describe('<Account />', () => {
-  it('renders <AccountForms /> when there is no currentUser', () => {
-    const wrapper = mountWithFullApp(<Account />, {}, []);
-
-    expect(wrapper.find(AccountForms).exists()).toBeTruthy();
-  });
-
-  it('does not render <Signout /> when there is no user', () => {
-    const wrapper = mountWithFullApp(<Account />, {}, []);
-
-    expect(wrapper.find(SignOut).exists()).toBeFalsy();
-  });
-
-  it('does not render <AccountForms /> when there is user', async () => {
-    const wrapper = mountWithFullApp(<Account />, user, []);
-
-    await actWait();
-
-    expect(wrapper.find(AccountForms).exists()).toBeFalsy();
-  });
-
-  it('does render <Signout /> when there is a user', async () => {
+  it('renders <Signout />', async () => {
     const wrapper = mountWithFullApp(<Account />, user, []);
 
     await actWait();
